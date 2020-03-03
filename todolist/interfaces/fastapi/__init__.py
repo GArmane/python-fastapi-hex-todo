@@ -1,4 +1,4 @@
-from fastapi import FastAPI  # type: ignore
+from fastapi import FastAPI
 
 
 app = FastAPI()
