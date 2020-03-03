@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "todo"
+name = "todolist"
 version = "0.0.1"
 description = "TODO aplication made with Python's FastAPI framework and Hexagonal Architecture"
 authors = ["Giovanni Armane <giovanniarmane@gmail.com>"]
