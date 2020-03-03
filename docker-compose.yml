@@ -1,0 +1,70 @@
+version: '3'
+
+volumes:
+  db-data:
+    driver: local
+  pg-admin-data:
+    driver: local
+
+
+services:
+    base: &base
+        hostname: app
+        image: fastapi-todo-app
+        stdin_open: true
+        tty: true
+        build:
+          context: .
+          dockerfile: Dockerfile
+        volumes:
+          - .:/home/python/app
+        environment: &env
+            PYTHONPATH: "/home/python/app"
+
+    app:
+        <<: *base
+        command: /bin/ash -c "poetry install"
+        ports:
+            - "5000:5000"
+          depends_on:
+            - pgsql-db
+
+    lint:
+        <<: *base
+        command: /bin/ash -c "poetry install && poetry run flake8"
+        
+    static-analysis:
+        <<: *base
+        command: /bin/ash -c "poetry install && poetry run mypy todo/ tests/"
+
+    tests:
+        <<: *base
+        command: /bin/ash -c "poetry install && poetry run pytest --cov=todo"
+        environment:
+          <<: *env
+        depends_on:
+          - pgsql-db
+
+    pgsql-db:
+        hostname: pgsql-db
+        image: postgres:12
+        environment:
+            POSTGRES_PASSWORD: "dev@1234"
+        ports:
+            - "5432:5432"
+            volumes:
+            - db-data:/var/lib/postgresql/data
+
+    pgadmin:
+        hostname: pgadmin4
+        image: dpage/pgadmin4
+        environment:
+            PGADMIN_DEFAULT_EMAIL: "dev@dev.com.br"
+            PGADMIN_DEFAULT_PASSWORD: "dev@1234"
+        ports:
+        - "6001:80"
+        volumes:
+            - pg-admin-data:/var/lib/pgadmin
+        depends_on:
+            - pgsql-db
+
