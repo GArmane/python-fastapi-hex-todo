@@ -25,9 +25,9 @@ services:
         <<: *base
         command: /bin/ash -c "poetry install"
         ports:
-            - "5000:5000"
-          depends_on:
-            - pgsql-db
+          - "5000:5000"
+        depends_on:
+          - pgsql-db
 
     lint:
         <<: *base
@@ -49,22 +49,22 @@ services:
         hostname: pgsql-db
         image: postgres:12
         environment:
-            POSTGRES_PASSWORD: "dev@1234"
+          POSTGRES_PASSWORD: "dev@1234"
         ports:
-            - "5432:5432"
-            volumes:
-            - db-data:/var/lib/postgresql/data
+          - "5432:5432"
+        volumes:
+          - db-data:/var/lib/postgresql/data
 
     pgadmin:
         hostname: pgadmin4
         image: dpage/pgadmin4
         environment:
-            PGADMIN_DEFAULT_EMAIL: "dev@dev.com.br"
-            PGADMIN_DEFAULT_PASSWORD: "dev@1234"
+          PGADMIN_DEFAULT_EMAIL: "dev@dev.com.br"
+          PGADMIN_DEFAULT_PASSWORD: "dev@1234"
         ports:
-        - "6001:80"
+          - "6001:80"
         volumes:
-            - pg-admin-data:/var/lib/pgadmin
+          - pg-admin-data:/var/lib/pgadmin
         depends_on:
-            - pgsql-db
+          - pgsql-db
 
