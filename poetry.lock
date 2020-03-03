@@ -527,6 +527,17 @@ six = ">=1.5"
 
 [[package]]
 category = "dev"
+description = "Add .env support to your django/flask apps in development and deployments"
+name = "python-dotenv"
+optional = false
+python-versions = "*"
+version = "0.12.0"
+
+[package.extras]
+cli = ["click (>=5.0)"]
+
+[[package]]
+category = "dev"
 description = "Alternative regular expression module, to replace re."
 name = "regex"
 optional = false
@@ -641,7 +652,7 @@ python-versions = ">=3.6.1"
 version = "8.1"
 
 [metadata]
-content-hash = "6b10103088b22aeecc6326016749e23b4292756fe63417fc2a7e2f30a7e43e1f"
+content-hash = "4843ef9357a980435cdd961fe95ed68bc2135938b4d86d55df69f1fcebb5d09e"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -890,6 +901,10 @@ pytest-sugar = [
 python-dateutil = [
     {file = "python-dateutil-2.8.1.tar.gz", hash = "sha256:73ebfe9dbf22e832286dafa60473e4cd239f8592f699aa5adaf10050e6e1823c"},
     {file = "python_dateutil-2.8.1-py2.py3-none-any.whl", hash = "sha256:75bb3f31ea686f1197762692a9ee6a7550b59fc6ca3a1f4b5d7e32fb98e2da2a"},
+]
+python-dotenv = [
+    {file = "python-dotenv-0.12.0.tar.gz", hash = "sha256:92b3123fb2d58a284f76cc92bfe4ee6c502c32ded73e8b051c4f6afc8b6751ed"},
+    {file = "python_dotenv-0.12.0-py2.py3-none-any.whl", hash = "sha256:81822227f771e0cab235a2939f0f265954ac4763cafd806d845801c863bf372f"},
 ]
 regex = [
     {file = "regex-2020.2.20-cp27-cp27m-win32.whl", hash = "sha256:99272d6b6a68c7ae4391908fc15f6b8c9a6c345a46b632d7fdb7ef6c883a2bbb"},

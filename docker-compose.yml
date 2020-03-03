@@ -19,13 +19,18 @@ services:
         volumes:
           - .:/home/python/app
         environment: &env
+            ENV: "development"
             PYTHONPATH: "/home/python/app"
+            WEB_SERVER_DEBUG: "true"
+            WEB_SERVER_TITLE: "todolist"
+            WEB_SERVER_DESCRIPTION: "todolist app"
+            WEB_SERVER_VERSION: "v1"
 
     app:
         <<: *base
         command: /bin/ash -c "poetry install"
         ports:
-          - "5000:5000"
+          - "8000:8000"
         depends_on:
           - pgsql-db
 
@@ -42,6 +47,7 @@ services:
         command: /bin/ash -c "poetry install && poetry run pytest --cov=todo"
         environment:
           <<: *env
+          ENV: "testing"
         depends_on:
           - pgsql-db
 
