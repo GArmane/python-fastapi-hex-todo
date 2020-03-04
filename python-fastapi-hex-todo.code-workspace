@@ -6,6 +6,10 @@
 	],
 	"settings": {
 		"editor.tabSize": 4,
+		"files.exclude": {
+			".mypy_cache/": true,
+			"todolist.egg-info": true,
+		},
 		"python.poetryPath": "poetry",
 		"python.venvPath": "~/.cache/pypoetry/virtualenvs",
 		"python.formatting.provider": "black",
