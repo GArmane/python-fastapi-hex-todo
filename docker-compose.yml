@@ -20,10 +20,13 @@ services:
           - .:/home/python/app
         environment: &env
             ENV: "development"
+            LOG_LEVEL: "debug"
             PYTHONPATH: "/home/python/app"
             WEB_SERVER_DEBUG: "true"
-            WEB_SERVER_TITLE: "todolist"
             WEB_SERVER_DESCRIPTION: "todolist app"
+            WEB_SERVER_HOST: "0.0.0.0"
+            WEB_SERVER_PORT: 8000
+            WEB_SERVER_TITLE: "todolist"
             WEB_SERVER_VERSION: "v1"
 
     app:

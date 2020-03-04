@@ -292,14 +292,6 @@ python-versions = "*"
 version = "0.3.1"
 
 [[package]]
-category = "main"
-description = "Python dependency injection framework"
-name = "inject"
-optional = false
-python-versions = "*"
-version = "4.1.1"
-
-[[package]]
 category = "dev"
 description = "McCabe checker, plugin for flake8"
 name = "mccabe"
@@ -652,7 +644,7 @@ python-versions = ">=3.6.1"
 version = "8.1"
 
 [metadata]
-content-hash = "4843ef9357a980435cdd961fe95ed68bc2135938b4d86d55df69f1fcebb5d09e"
+content-hash = "b41946b85962d3ee76b1201d20eada8d31c550f8ec655370dc31b71e9227951b"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -795,9 +787,6 @@ httptools = [
 ]
 inflection = [
     {file = "inflection-0.3.1.tar.gz", hash = "sha256:18ea7fb7a7d152853386523def08736aa8c32636b047ade55f7578c4edeb16ca"},
-]
-inject = [
-    {file = "Inject-4.1.1.tar.gz", hash = "sha256:efbe3ec49231a084284f0c2fd88a7c3f4798a1ff297add5b3fca0ddd252ded35"},
 ]
 mccabe = [
     {file = "mccabe-0.6.1-py2.py3-none-any.whl", hash = "sha256:ab8a6258860da4b6677da4bd2fe5dc2c659cff31b3ee4f7f5d64e79735b80d42"},

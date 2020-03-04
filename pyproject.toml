@@ -8,7 +8,6 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = "^3.8"
 fastapi = {extras = ["email_validator", "requests"], version = "^0.52.0"}
-inject = "^4.1.1"
 uvicorn = "^0.11.3"
 
 [tool.poetry.dev-dependencies]
