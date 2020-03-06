@@ -2,10 +2,13 @@ from typing import Optional
 
 from pydantic import BaseModel, Field
 
+MsgType = Field(..., min_length=3, max_length=100)
+OptionalMsgType = Field(None, min_length=3, max_length=100)
+
 
 class TodoItem(BaseModel):
     id: int
-    msg: str
+    msg: str = MsgType
     is_done: bool
 
     class Config:
@@ -14,7 +17,7 @@ class TodoItem(BaseModel):
 
 
 class CreateTodoItemDto(BaseModel):
-    msg: str = Field(..., min_length=3, max_length=100)
+    msg: str = MsgType
     is_done: bool = False
 
     class Config:
@@ -22,7 +25,7 @@ class CreateTodoItemDto(BaseModel):
 
 
 class UpdateTodoItemDto(BaseModel):
-    msg: Optional[str] = Field(None, min_length=3, max_length=100)
+    msg: Optional[str] = OptionalMsgType
     is_done: Optional[bool]
 
     class Config:
