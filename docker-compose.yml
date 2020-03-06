@@ -31,7 +31,7 @@ services:
 
     app:
         <<: *base
-        command: /bin/ash -c "poetry install"
+        command: /bin/ash -c "poetry install && python -m uvicorn todolist:web_app --host 0.0.0.0 --reload"
         ports:
           - "8000:8000"
         depends_on:
@@ -39,15 +39,15 @@ services:
 
     lint:
         <<: *base
-        command: /bin/ash -c "poetry install && poetry run flake8"
+        command: /bin/ash -c "poetry install && python -m flake8 todolist/ tests/"
         
     static-analysis:
         <<: *base
-        command: /bin/ash -c "poetry install && poetry run mypy todo/ tests/"
+        command: /bin/ash -c "poetry install && python -m mypy todolist/ tests/"
 
     tests:
         <<: *base
-        command: /bin/ash -c "poetry install && poetry run pytest --cov=todo"
+        command: /bin/ash -c "poetry install && python -m pytest --cov=todo"
         environment:
           <<: *env
           ENV: "testing"

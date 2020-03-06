@@ -6,14 +6,16 @@
 	],
 	"settings": {
 		"editor.tabSize": 4,
+		"editor.rulers": [88, 120],
 		"files.exclude": {
 			".mypy_cache/": true,
 			"todolist.egg-info": true,
 		},
+		"python.venvPath": ".venv",
+		"python.pythonPath": ".venv/bin/python3",
 		"python.poetryPath": "poetry",
-		"python.venvPath": "~/.cache/pypoetry/virtualenvs",
-		"python.formatting.provider": "black",
 		"python.analysis.openFilesOnly": false,
+		"python.formatting.provider": "black",
 		"python.linting.enabled": true,
 		"python.linting.lintOnSave": true,
 		"python.linting.pylintEnabled": false,

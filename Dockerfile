@@ -9,6 +9,7 @@ LABEL license="MIT"
 # Set environment variables
 ENV PYTHON_VERSION=3.8.1 \
   APP_PATH=/home/python/app \
+  POETRY_VIRTUALENVS_CREATE=false \
   PATH=/usr/local/bin:/home/python:/home/python/app/bin:$PATH
 
 # Install and configure dependencies
