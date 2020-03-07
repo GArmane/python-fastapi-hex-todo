@@ -26,7 +26,7 @@ class CreateTodoItemDto(BaseModel):
 
 class UpdateTodoItemDto(BaseModel):
     msg: Optional[str] = OptionalMsgType
-    is_done: Optional[bool]
+    is_done: Optional[bool] = False
 
     class Config:
         allow_mutation = False
