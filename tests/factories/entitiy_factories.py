@@ -7,7 +7,7 @@ from todolist.domains.todo.entities.todo_item import (
 )
 
 
-class TodoItemDtoFactory(factory.Factory):
+class TodoItemFactory(factory.Factory):
     class Meta:
         model = TodoItem
 

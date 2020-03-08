@@ -5,14 +5,14 @@ from pytest_factoryboy import register
 
 from tests.factories.entitiy_factories import (
     CreateTodoItemDtoFactory,
-    TodoItemDtoFactory,
+    TodoItemFactory,
     UpdateTodoItemDtoFactory,
 )
 
 
 FACTORIES = [
     CreateTodoItemDtoFactory,
-    TodoItemDtoFactory,
+    TodoItemFactory,
     UpdateTodoItemDtoFactory,
 ]
 
@@ -45,10 +45,10 @@ def todo_items(todo_item_factory):
 
 
 @pytest.fixture()
-def update_todo_item(update_todo_item_dto_factory):
+def update_todo_item_dto(update_todo_item_dto_factory):
     return update_todo_item_dto_factory()
 
 
 @pytest.fixture()
-def update_todo_items(update_todo_item_dto_factory):
+def update_todo_item_dtos(update_todo_item_dto_factory):
     return partial(make_many, update_todo_item_dto_factory)

@@ -6,11 +6,11 @@ from todolist.domains.todo.entities.todo_item import (
     UpdateTodoItemDto,
 )
 
-_KV = TypeVar("_KV", CreateTodoItemDto, UpdateTodoItemDto)
-_UpdateManyFnType = Callable[[Iterable[Tuple[int, _KV]]], Iterable[TodoItem]]
+KV = TypeVar("KV", CreateTodoItemDto, UpdateTodoItemDto)
+UpdateManyFnType = Callable[[Iterable[Tuple[int, KV]]], Iterable[TodoItem]]
 
 
 def update_many_todo_items(
-    update_many: _UpdateManyFnType[_KV], dtos: Iterable[_KV], ids: Iterable[int]
+    update_many: UpdateManyFnType[KV], dtos: Iterable[KV], ids: Iterable[int]
 ) -> Iterable[TodoItem]:
     return update_many(zip(ids, dtos))
