@@ -3,7 +3,7 @@ from todolist.config.environment import get_initial_settings
 from todolist.interfaces.fastapi import app as web_app
 
 
-def main() -> None:
+def start_web_server() -> None:
     conf = get_initial_settings()
     uvicorn.run(
         web_app,
@@ -11,7 +11,3 @@ def main() -> None:
         port=conf.WEB_SERVER_PORT,
         log_level=conf.LOG_LEVEL,
     )
-
-
-if __name__ == "__main__":
-    main()
