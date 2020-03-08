@@ -1,10 +1,10 @@
-from typing import Callable, Optional
+from typing import Awaitable, Callable, Optional
 
 from todolist.domains.todo.entities.todo_item import TodoItem
 
 
-FetchOneFnType = Callable[[int], TodoItem]
+FetchOneFnType = Callable[[int], Awaitable[TodoItem]]
 
 
-def get_one_todo_item(fetch_one: FetchOneFnType, id_: int) -> Optional[TodoItem]:
-    return fetch_one(id_)
+async def get_one_todo_item(fetch_one: FetchOneFnType, id_: int) -> Optional[TodoItem]:
+    return await fetch_one(id_)

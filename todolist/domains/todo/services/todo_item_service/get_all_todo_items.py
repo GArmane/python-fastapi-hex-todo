@@ -1,10 +1,10 @@
-from typing import Callable, Iterable
+from typing import Awaitable, Callable, Iterable
 
 from todolist.domains.todo.entities.todo_item import TodoItem
 
 
-FetchAllFnType = Callable[[], Iterable[TodoItem]]
+FetchAllFnType = Callable[[], Awaitable[Iterable[TodoItem]]]
 
 
-def get_all_todo_items(fetch_all: FetchAllFnType) -> Iterable[TodoItem]:
-    return fetch_all()
+async def get_all_todo_items(fetch_all: FetchAllFnType) -> Iterable[TodoItem]:
+    return await fetch_all()

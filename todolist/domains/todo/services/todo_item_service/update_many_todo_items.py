@@ -1,4 +1,4 @@
-from typing import Callable, Iterable, Tuple, TypeVar
+from typing import Awaitable, Callable, Iterable, Tuple, TypeVar
 
 from todolist.domains.todo.entities.todo_item import (
     CreateTodoItemDto,
@@ -7,10 +7,10 @@ from todolist.domains.todo.entities.todo_item import (
 )
 
 KV = TypeVar("KV", CreateTodoItemDto, UpdateTodoItemDto)
-UpdateManyFnType = Callable[[Iterable[Tuple[int, KV]]], Iterable[TodoItem]]
+UpdateManyFnType = Callable[[Iterable[Tuple[int, KV]]], Awaitable[Iterable[TodoItem]]]
 
 
-def update_many_todo_items(
+async def update_many_todo_items(
     update_many: UpdateManyFnType[KV], dtos: Iterable[KV], ids: Iterable[int]
 ) -> Iterable[TodoItem]:
-    return update_many(zip(ids, dtos))
+    return await update_many(zip(ids, dtos))

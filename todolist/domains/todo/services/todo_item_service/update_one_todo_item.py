@@ -1,4 +1,4 @@
-from typing import Callable, Optional, TypeVar
+from typing import Awaitable, Callable, Optional, TypeVar
 
 from todolist.domains.todo.entities.todo_item import (
     CreateTodoItemDto,
@@ -6,11 +6,11 @@ from todolist.domains.todo.entities.todo_item import (
     UpdateTodoItemDto,
 )
 
-T = TypeVar("_T", CreateTodoItemDto, UpdateTodoItemDto)
-UpdateFnType = Callable[[T, int], Optional[TodoItem]]
+T = TypeVar("T", CreateTodoItemDto, UpdateTodoItemDto)
+UpdateFnType = Callable[[T, int], Awaitable[Optional[TodoItem]]]
 
 
-def update_one_todo_item(
+async def update_one_todo_item(
     update_one: UpdateFnType[T], dto: T, id_: int
 ) -> Optional[TodoItem]:
-    return update_one(dto, id_)
+    return await update_one(dto, id_)

@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     WEB_SERVER_DESCRIPTION: str
     WEB_SERVER_HOST: str
     WEB_SERVER_PORT: int
+    WEB_SERVER_RELOAD: bool
     WEB_SERVER_TITLE: str
     WEB_SERVER_VERSION: str
 
