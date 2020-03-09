@@ -9,6 +9,7 @@ license = "MIT"
 python = "^3.8"
 fastapi = {extras = ["email_validator", "requests"], version = "^0.52.0"}
 uvicorn = "^0.11.3"
+toolz = "^0.10.0"
 
 [tool.poetry.dev-dependencies]
 black = "^19.10b0"

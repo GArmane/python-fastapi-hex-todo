@@ -1,17 +1,17 @@
-import logging
-
 import uvicorn
-from todolist.config.environment import get_initial_settings
-from todolist.interfaces.fastapi import app as web_app
+from todolist.config.environment import get_current_settings
+from todolist.interfaces.fastapi import create_app
+
+
+_SETTINGS = get_current_settings()
+WEB_APP = create_app(_SETTINGS)
 
 
 def start_web_server() -> None:
-    conf = get_initial_settings()
-    logging.getLogger().info(f"Initializing {web_app.title}")
     uvicorn.run(
-        "todolist:web_app",
-        host=conf.WEB_SERVER_HOST,
-        port=conf.WEB_SERVER_PORT,
-        reload=conf.WEB_SERVER_RELOAD,
-        log_level=conf.LOG_LEVEL,
+        "todolist:WEB_APP",
+        host=_SETTINGS.WEB_SERVER_HOST,
+        port=_SETTINGS.WEB_SERVER_PORT,
+        reload=_SETTINGS.WEB_SERVER_RELOAD,
+        log_level=_SETTINGS.LOG_LEVEL,
     )
