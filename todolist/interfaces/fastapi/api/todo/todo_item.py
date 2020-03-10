@@ -2,6 +2,7 @@ from typing import Dict, List
 
 from fastapi import Response
 from fastapi.routing import APIRouter
+from toolz.itertoolz import last
 from toolz.dicttoolz import assoc, dissoc, get_in
 from toolz.functoolz import pipe
 
@@ -30,11 +31,14 @@ class FakeRepo:
         }
 
     async def create(self, dto: CreateTodoItemDto):
-        *_, last_key = self.items.keys()
-        new_key = last_key + 1
-        entity = TodoItem(id=new_key, msg=dto.msg, is_done=dto.is_done)
-        self.items[new_key] = entity
-        return entity
+        self.items, new_item = pipe(
+            self.items.keys(),
+            last,
+            lambda key: key + 1,
+            lambda new_key: TodoItem(id=new_key, msg=dto.msg, is_done=dto.is_done),
+            lambda item: (assoc(self.items, item.id, item), item),
+        )
+        return new_item
 
     async def delete(self, id_):
         self.items, has_changed = pipe(
@@ -68,7 +72,6 @@ class FakeRepo:
             lambda data: TodoItem(**data),
             lambda todo: (assoc(self.items, id_, todo), todo),
         )
-        print(new_item)
         return new_item
 
 
