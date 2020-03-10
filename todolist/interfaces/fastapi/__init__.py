@@ -2,7 +2,7 @@ from fastapi.applications import FastAPI
 from toolz import pipe
 
 from todolist.config.environment import Settings
-from todolist.interfaces.fastapi.api import root
+from todolist.interfaces.fastapi.api import root, todo
 
 
 def init_app(settings: Settings) -> FastAPI:
@@ -24,6 +24,7 @@ def register_middlewares(app: FastAPI) -> FastAPI:
 
 def register_routers(app: FastAPI) -> FastAPI:
     app.include_router(root.router)
+    app.include_router(todo.router, prefix="/todo")
     return app
 
 
