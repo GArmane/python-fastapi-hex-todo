@@ -48,7 +48,7 @@ services:
 
     tests:
         <<: *base
-        command: /bin/ash -c "poetry install && python -m pytest --cov=todo --cov-report=term:missing --cov-fail-under=95"
+        command: /bin/ash -c "poetry install && python -m pytest"
         environment:
           <<: *env
           ENV: "testing"
