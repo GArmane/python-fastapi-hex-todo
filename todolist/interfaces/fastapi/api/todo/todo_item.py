@@ -2,9 +2,9 @@ from typing import Dict, List
 
 from fastapi import Response
 from fastapi.routing import APIRouter
-from toolz.itertoolz import last
 from toolz.dicttoolz import assoc, dissoc, get_in
 from toolz.functoolz import pipe
+from toolz.itertoolz import last
 
 from todolist.domains.todo.entities.todo_item import (
     CreateTodoItemDto,
@@ -12,14 +12,15 @@ from todolist.domains.todo.entities.todo_item import (
     UpdateTodoItemDto,
 )
 from todolist.domains.todo.services.todo_item_service import (
-    create_one_todo_item,
-    delete_one_todo_item,
-    get_all_todo_items,
-    get_one_todo_item,
-    update_one_todo_item,
+    create_one,
+    delete_one,
+    get_all,
+    get_one,
+    update_one,
 )
 
 
+# FIXME Mocks
 class FakeRepo:
     def __init__(self):
         self.items: Dict[int, TodoItem] = {
@@ -76,17 +77,21 @@ class FakeRepo:
 
 
 fake_repo = FakeRepo()
+
+
+# Router
 router = APIRouter()
 
 
+# Handlers
 @router.post(
     "",
     response_model=TodoItem,
     status_code=201,
     responses={201: {"description": "Item created"}},
 )
-async def create(dto: CreateTodoItemDto):
-    return await create_one_todo_item(fake_repo.create, dto)
+async def handle_create_one(dto: CreateTodoItemDto):
+    return await create_one(fake_repo.create, dto)
 
 
 @router.delete(
@@ -97,8 +102,8 @@ async def create(dto: CreateTodoItemDto):
         404: {"description": "Item not found"},
     },
 )
-async def delete(item_id: int):
-    result = await delete_one_todo_item(fake_repo.delete, item_id)
+async def handle_delete_one(item_id: int):
+    result = await delete_one(fake_repo.delete, item_id)
     if not result:
         return Response(status_code=404)
 
@@ -109,8 +114,8 @@ async def delete(item_id: int):
     status_code=200,
     responses={200: {"description": "Items found"}},
 )
-async def get_all():
-    return list(await get_all_todo_items(fake_repo.get_all))
+async def handle_get_all():
+    return list(await get_all(fake_repo.get_all))
 
 
 @router.get(
@@ -122,8 +127,8 @@ async def get_all():
         404: {"description": "Item not found"},
     },
 )
-async def get_one(item_id: int):
-    item = await get_one_todo_item(fake_repo.get_one, item_id)
+async def handle_get_one(item_id: int):
+    item = await get_one(fake_repo.get_one, item_id)
     if not item:
         return Response(status_code=404)
     return item
@@ -138,8 +143,8 @@ async def get_one(item_id: int):
         404: {"description": "Item not found"},
     },
 )
-async def replace(dto: CreateTodoItemDto, item_id: int):
-    item = await update_one_todo_item(fake_repo.replace, dto, item_id)
+async def handle_replace_one(dto: CreateTodoItemDto, item_id: int):
+    item = await update_one(fake_repo.replace, dto, item_id)
     return item if item else Response(status_code=404)
 
 
@@ -152,6 +157,6 @@ async def replace(dto: CreateTodoItemDto, item_id: int):
         404: {"description": "Item not found"},
     },
 )
-async def update(dto: UpdateTodoItemDto, item_id: int):
-    item = await update_one_todo_item(fake_repo.update, dto, item_id)
+async def handle_update_one(dto: UpdateTodoItemDto, item_id: int):
+    item = await update_one(fake_repo.update, dto, item_id)
     return item if item else Response(status_code=404)
