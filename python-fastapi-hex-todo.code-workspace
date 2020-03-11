@@ -10,7 +10,7 @@
 		"files.exclude": {
 			".mypy_cache/": true,
 			".pytest_cache/": true,
-			"todolist.egg-info": true,
+			"*.egg-info": true,
 		},
 		"python.venvPath": ".venv",
 		"python.pythonPath": ".venv/bin/python3",
