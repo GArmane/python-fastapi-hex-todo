@@ -29,7 +29,7 @@ Auxiliary libraries were omitted but can be found in the [pyproject](https://git
 
 To start development it is recommended to have these utilities installed in a local development machine:
 
-* [Python 3.7+](https://www.python.org/)
+* [Python 3.8+](https://www.python.org/)
 * [Docker](https://www.docker.com/)
 * [Git](https://git-scm.com/)
 * [Plis](https://github.com/IcaliaLabs/plis)
