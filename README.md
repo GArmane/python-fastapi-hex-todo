@@ -60,7 +60,7 @@ To run the API in development mode, follow these steps:
 
 ### PGAdmin
 
-A configure instance of PGAdmin for database monitoring and management is provided by default.
+A configured instance of PGAdmin for database monitoring and management is provided by default.
 
 To start it, run: `sudo plis start pgadmin`
 
