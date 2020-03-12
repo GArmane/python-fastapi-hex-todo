@@ -1,3 +1,4 @@
+from copy import deepcopy
 from typing import Dict, List
 
 from fastapi import Response
@@ -30,6 +31,7 @@ class FakeRepo:
             4: TodoItem(id=4, msg="Item 4", is_done=True),
             5: TodoItem(id=5, msg="Item 5", is_done=True),
         }
+        self.items_bk = deepcopy(self.items)
 
     async def create(self, dto: CreateTodoItemDto):
         self.items, new_item = pipe(
@@ -75,6 +77,9 @@ class FakeRepo:
         )
         return new_item
 
+    def reset(self):
+        self.items = self.items_bk
+
 
 fake_repo = FakeRepo()
 
@@ -106,6 +111,7 @@ async def handle_delete_one(item_id: int):
     result = await delete_one(fake_repo.delete, item_id)
     if not result:
         return Response(status_code=404)
+    return Response(status_code=204)
 
 
 @router.get(
