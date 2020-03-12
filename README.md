@@ -10,7 +10,7 @@ This is a test repository for the purpose of testing FastAPI framework capabilit
 
 This project is comprised of the following languages and libraries:
 
-* Language: [Python 3.7+](https://www.python.org/)
+* Language: [Python 3.8+](https://www.python.org/)
 * Package management: [Poetry](https://python-poetry.org/)
 * Web framework: [FastAPI](https://fastapi.tiangolo.com/)
 * Production web server: [Uvicorn](http://www.uvicorn.org/)
