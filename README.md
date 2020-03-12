@@ -16,6 +16,7 @@ This project is comprised of the following languages and libraries:
 * Production web server: [Uvicorn](http://www.uvicorn.org/)
 * Relational database: [Postgres](https://www.postgresql.org/)
 * Relational ORM: [SQLAlchemy](https://www.sqlalchemy.org/)
+* Functional programming utilities: [Toolz](https://toolz.readthedocs.io/en/latest/)
 * Data parsing and validation: [Pydantic](https://pydantic-docs.helpmanual.io/)
 * Testing: [Pytest](https://docs.pytest.org/en/latest/)
 * Linter: [Flake8](https://flake8.pycqa.org/en/latest/)
