@@ -23,4 +23,4 @@ async def disconnect_database():
 def init_database() -> None:
     import todolist.infra.database.models  # noqa: F401
 
-    pipe(_SETTINGS.DATABASE_PG_URL, create_engine, metadata.create_all)
+    pipe(_SETTINGS.DATABASE_PG_URL, create_engine)

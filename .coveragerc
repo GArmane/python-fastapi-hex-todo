@@ -1,5 +1,6 @@
 [run]
 omit =
     todolist/__main__.py
+    todolist/infra/database/alembic/*
+    todolist/infra/database/seeds.py
     todolist/infra/database/sqlalchemy.py
-    todolist/ingra/database/alembic
