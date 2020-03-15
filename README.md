@@ -15,6 +15,8 @@ This project is comprised of the following languages and libraries:
 * Web framework: [FastAPI](https://fastapi.tiangolo.com/)
 * Production web server: [Uvicorn](http://www.uvicorn.org/)
 * Relational database: [Postgres](https://www.postgresql.org/)
+* Relational database async support: [databases](https://www.encode.io/databases/)
+* Relational database migrations: [Alembic](https://alembic.sqlalchemy.org/en/latest/)
 * Relational ORM: [SQLAlchemy](https://www.sqlalchemy.org/)
 * Functional programming utilities: [Toolz](https://toolz.readthedocs.io/en/latest/)
 * Data parsing and validation: [Pydantic](https://pydantic-docs.helpmanual.io/)
@@ -51,12 +53,13 @@ To run the API in development mode, follow these steps:
 
 * Start a container with: `plis start --service-ports app ash`
 * Inside the container run: `poetry install`
+* Run migrations with: `alembic upgrade head`
 * Start the web server with: `python -m todolist`
-* Test the API with: `python -m pytest`
-* Check code style with: `python -m black --check todolist`
-* Format code with: `python -m black todolist`
-* Lint the code with: `python -m flake8 todolist tests`
-* Run static analysis with: `python -m mypy job_form_api tests`
+* Test the API with: `pytest`
+* Check code style with: `black --check todolist`
+* Format code with: `black todolist`
+* Lint the code with: `flake8 todolist tests`
+* Run static analysis with: `mypy job_form_api tests`
 
 ### PGAdmin
 

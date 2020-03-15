@@ -7,11 +7,11 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.8"
+alembic = "^1.4.1"
 databases = {version = "^0.2.6", extras = ["postgresql"]}
 fastapi = {extras = ["email_validator", "requests"], version = "^0.52.0"}
 uvicorn = "^0.11.3"
 toolz = "^0.10.0"
-alembic = "^1.4.1"
 
 [tool.poetry.dev-dependencies]
 black = "^19.10b0"
