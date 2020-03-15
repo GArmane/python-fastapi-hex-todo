@@ -1,13 +1,14 @@
 from typing import Callable
 
 from dotenv import load_dotenv
-from pydantic import BaseSettings
+from pydantic import BaseSettings, PostgresDsn
 
 
 class Settings(BaseSettings):
     ENV: str
     PYTHONPATH: str
     LOG_LEVEL: str
+    DATABASE_PG_URL: PostgresDsn
     WEB_APP_DEBUG: bool
     WEB_APP_DESCRIPTION: str
     WEB_APP_TITLE: str

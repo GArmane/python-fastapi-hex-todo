@@ -1,7 +1,8 @@
 version: '3'
 
 volumes:
-  db-data:
+  pgsql-db-scripts:
+  pgsql-db-data:
     driver: local
   pg-admin-data:
     driver: local
@@ -22,6 +23,7 @@ services:
             ENV: "development"
             LOG_LEVEL: "debug"
             PYTHONPATH: "/home/python/app"
+            DATABASE_PG_URL: "postgresql://postgres:dev1234@pgsql-db/todolist_dev"
             WEB_APP_DEBUG: "true"
             WEB_APP_DESCRIPTION: "Todolist Task Management Application"
             WEB_APP_TITLE: "Todolist"
@@ -52,24 +54,26 @@ services:
         environment:
           <<: *env
           ENV: "testing"
+          DATABASE_PG_URL: "postgresql://postgres:dev1234@pgsql-db/todolist_test"
         depends_on:
           - pgsql-db
 
     pgsql-db:
         hostname: pgsql-db
-        image: postgres:12
+        image: postgres:12-alpine
         environment:
-          POSTGRES_PASSWORD: "dev@1234"
+          POSTGRES_PASSWORD: "dev1234"
         ports:
           - "5432:5432"
         volumes:
-          - db-data:/var/lib/postgresql/data
+          - ./scripts/pgsql-db:/docker-entrypoint-initdb.d
+          - pgsql-db-data:/var/lib/postgresql/data
 
     pgadmin:
         hostname: pgadmin4
         image: dpage/pgadmin4
         environment:
-          PGADMIN_DEFAULT_EMAIL: "dev@dev.com.br"
+          PGADMIN_DEFAULT_EMAIL: "dev@dev.com"
           PGADMIN_DEFAULT_PASSWORD: "dev@1234"
         ports:
           - "6001:80"
