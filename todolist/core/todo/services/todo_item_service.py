@@ -12,7 +12,7 @@ DeleteManyFnType = Callable[[Iterable[int]], Awaitable[bool]]
 DeleteOneFnType = Callable[[int], Awaitable[bool]]
 
 FetchAllFnType = Callable[[], Awaitable[Iterable[TodoItem]]]
-FetchOneFnType = Callable[[int], Awaitable[TodoItem]]
+FetchOneFnType = Callable[[int], Awaitable[Optional[TodoItem]]]
 
 T = TypeVar("T", CreateTodoItemDto, UpdateTodoItemDto)
 UpdateFnType = Callable[[T, int], Awaitable[Optional[TodoItem]]]

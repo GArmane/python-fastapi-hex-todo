@@ -1,11 +1,7 @@
-from copy import deepcopy
-from typing import Dict, List
+from typing import List
 
 from fastapi import Response
 from fastapi.routing import APIRouter
-from toolz.dicttoolz import assoc, dissoc, get_in
-from toolz.functoolz import pipe
-from toolz.itertoolz import last
 
 from todolist.core.todo.entities.todo_item import (
     CreateTodoItemDto,
@@ -13,70 +9,24 @@ from todolist.core.todo.entities.todo_item import (
     UpdateTodoItemDto,
 )
 from todolist.core.todo.services import todo_item_service
-
-
-# FIXME Mocks
-class FakeRepo:
-    def __init__(self):
-        self.items: Dict[int, TodoItem] = {
-            1: TodoItem(id=1, msg="Item 1", is_done=False),
-            2: TodoItem(id=2, msg="Item 2", is_done=False),
-            3: TodoItem(id=3, msg="Item 3", is_done=False),
-            4: TodoItem(id=4, msg="Item 4", is_done=True),
-            5: TodoItem(id=5, msg="Item 5", is_done=True),
-        }
-        self.items_bk = deepcopy(self.items)
-
-    async def create(self, dto: CreateTodoItemDto):
-        self.items, new_item = pipe(
-            self.items.keys(),
-            last,
-            lambda key: key + 1,
-            lambda new_key: TodoItem(id=new_key, msg=dto.msg, is_done=dto.is_done),
-            lambda item: (assoc(self.items, item.id, item), item),
-        )
-        return new_item
-
-    async def delete(self, id_):
-        self.items, has_changed = pipe(
-            id_,
-            lambda key: dissoc(self.items, key),
-            lambda new: (new, len(self.items) != len(new)),
-        )
-        return has_changed
-
-    async def get_all(self):
-        return list(self.items.values())
-
-    async def get_one(self, id_):
-        return get_in([id_], self.items)
-
-    async def replace(self, dto: CreateTodoItemDto, id_: int):
-        if not get_in([id_], self.items):
-            return None
-        self.items = assoc(
-            self.items, id_, TodoItem(id=id_, msg=dto.msg, is_done=dto.is_done)
-        )
-        return get_in([id_], self.items)
-
-    async def update(self, dto: UpdateTodoItemDto, id_: int):
-        item = get_in([id_], self.items)
-        if not item:
-            return None
-        self.items, new_item = pipe(
-            (item, dto),
-            lambda items: {**items[0].dict(), **items[1].dict(exclude_defaults=True)},
-            lambda data: TodoItem(**data),
-            lambda todo: (assoc(self.items, id_, todo), todo),
-        )
-        return new_item
-
-    def reset(self):
-        self.items = self.items_bk
-
-
-fake_repo = FakeRepo()
-
+from todolist.infra.database.repositories.todo_item_repository import (
+    create_one as repo_create_one,
+)
+from todolist.infra.database.repositories.todo_item_repository import (
+    delete_one as repo_delete_one,
+)
+from todolist.infra.database.repositories.todo_item_repository import (
+    get_all as repo_get_all,
+)
+from todolist.infra.database.repositories.todo_item_repository import (
+    get_one_by_id as repo_get_one_by_id,
+)
+from todolist.infra.database.repositories.todo_item_repository import (
+    replace_one_by_id as repo_replace_one_by_id,
+)
+from todolist.infra.database.repositories.todo_item_repository import (
+    update_one_by_id as repo_update_one_by_id,
+)
 
 # Router
 router = APIRouter()
@@ -90,7 +40,7 @@ router = APIRouter()
     responses={201: {"description": "Item created"}},
 )
 async def create_one(dto: CreateTodoItemDto):
-    return await todo_item_service.create_one(fake_repo.create, dto)
+    return await todo_item_service.create_one(repo_create_one, dto)
 
 
 @router.delete(
@@ -102,7 +52,7 @@ async def create_one(dto: CreateTodoItemDto):
     },
 )
 async def delete_one(item_id: int):
-    result = await todo_item_service.delete_one(fake_repo.delete, item_id)
+    result = await todo_item_service.delete_one(repo_delete_one, item_id)
     if not result:
         return Response(status_code=404)
     return Response(status_code=204)
@@ -115,7 +65,7 @@ async def delete_one(item_id: int):
     responses={200: {"description": "Items found"}},
 )
 async def get_all():
-    return list(await todo_item_service.get_all(fake_repo.get_all))
+    return list(await todo_item_service.get_all(repo_get_all))
 
 
 @router.get(
@@ -128,7 +78,7 @@ async def get_all():
     },
 )
 async def get_one(item_id: int):
-    item = await todo_item_service.get_one(fake_repo.get_one, item_id)
+    item = await todo_item_service.get_one(repo_get_one_by_id, item_id)
     if not item:
         return Response(status_code=404)
     return item
@@ -144,7 +94,7 @@ async def get_one(item_id: int):
     },
 )
 async def replace_one(dto: CreateTodoItemDto, item_id: int):
-    item = await todo_item_service.update_one(fake_repo.replace, dto, item_id)
+    item = await todo_item_service.update_one(repo_replace_one_by_id, dto, item_id)
     return item if item else Response(status_code=404)
 
 
@@ -158,5 +108,5 @@ async def replace_one(dto: CreateTodoItemDto, item_id: int):
     },
 )
 async def update_one(dto: UpdateTodoItemDto, item_id: int):
-    item = await todo_item_service.update_one(fake_repo.update, dto, item_id)
+    item = await todo_item_service.update_one(repo_update_one_by_id, dto, item_id)
     return item if item else Response(status_code=404)
