@@ -1,7 +1,6 @@
 import databases
 from sqlalchemy.engine import create_engine
 from sqlalchemy.schema import MetaData
-from toolz.functoolz import pipe
 
 from todolist.config.environment import get_initial_settings
 
@@ -31,4 +30,4 @@ async def disconnect_database():
 def init_database() -> None:
     import todolist.infra.database.models  # noqa: F401
 
-    pipe(_SETTINGS.DATABASE_PG_URL, create_engine)
+    metadata.bind = create_engine(_SETTINGS.DATABASE_PG_URL)

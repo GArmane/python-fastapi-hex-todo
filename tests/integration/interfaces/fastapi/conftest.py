@@ -1,10 +1,8 @@
 import pytest
 from fastapi.testclient import TestClient  # type: ignore
 
+from tests.utils.database import clear_database
 from todolist.config.environment import get_current_settings, get_initial_settings
-
-# TODO remove fake_repo when true repository in place
-from todolist.interfaces.fastapi.api.todo.todo_item import fake_repo
 from todolist.interfaces.fastapi.app import init_app
 
 
@@ -22,7 +20,6 @@ def initial_env_settings_fixture():
 # Web app fixtures
 @pytest.fixture(name="web_app_factory")
 def web_app_factory_fixture():
-    fake_repo.reset()
     return lambda settings: init_app(settings)
 
 
@@ -39,4 +36,5 @@ def test_client_factory_fixture():
 
 @pytest.fixture(name="test_client")
 def test_client_fixture(web_app, test_client_factory):
+    clear_database()
     return test_client_factory(web_app)
