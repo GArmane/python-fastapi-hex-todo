@@ -1,6 +1,6 @@
 import factory
 
-from todolist.domains.todo.entities.todo_item import (
+from todolist.core.todo.entities.todo_item import (
     CreateTodoItemDto,
     TodoItem,
     UpdateTodoItemDto,

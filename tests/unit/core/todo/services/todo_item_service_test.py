@@ -2,7 +2,7 @@ from asyncio import Future
 
 import pytest
 
-from todolist.domains.todo.services.todo_item_service import (
+from todolist.core.todo.services.todo_item_service import (
     create_one,
     delete_many,
     delete_one,

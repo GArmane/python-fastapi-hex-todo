@@ -7,12 +7,12 @@ from toolz.dicttoolz import assoc, dissoc, get_in
 from toolz.functoolz import pipe
 from toolz.itertoolz import last
 
-from todolist.domains.todo.entities.todo_item import (
+from todolist.core.todo.entities.todo_item import (
     CreateTodoItemDto,
     TodoItem,
     UpdateTodoItemDto,
 )
-from todolist.domains.todo.services import todo_item_service
+from todolist.core.todo.services import todo_item_service
 
 
 # FIXME Mocks

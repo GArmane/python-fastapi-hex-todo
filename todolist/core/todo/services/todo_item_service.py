@@ -1,6 +1,6 @@
 from typing import Awaitable, Callable, Iterable, Optional, Tuple, TypeVar
 
-from todolist.domains.todo.entities.todo_item import (
+from todolist.core.todo.entities.todo_item import (
     CreateTodoItemDto,
     TodoItem,
     UpdateTodoItemDto,

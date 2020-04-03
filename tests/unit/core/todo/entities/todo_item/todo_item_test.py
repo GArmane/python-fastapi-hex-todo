@@ -5,7 +5,7 @@ import pytest
 from pydantic import ValidationError
 
 from tests.utils import assert_validation_error
-from todolist.domains.todo.entities.todo_item import TodoItem
+from todolist.core.todo.entities.todo_item import TodoItem
 
 # Types
 DataType = Dict[str, Any]
