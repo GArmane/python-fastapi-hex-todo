@@ -12,7 +12,7 @@ class TodoItemFactory(factory.Factory):
         model = TodoItem
 
     id = factory.Faker("pyint", min_value=0)  # noqa: A003
-    msg = factory.Faker("sentence", variable_nb_words=True)
+    msg = factory.Faker("pystr", min_chars=3, max_chars=50)
     is_done = factory.Faker("pybool")
 
 
@@ -20,7 +20,7 @@ class CreateTodoItemDtoFactory(factory.Factory):
     class Meta:
         model = CreateTodoItemDto
 
-    msg = factory.Faker("sentence", variable_nb_words=True)
+    msg = factory.Faker("pystr", min_chars=3, max_chars=50)
     is_done = factory.Faker("pybool")
 
 
@@ -28,5 +28,5 @@ class UpdateTodoItemDtoFactory(factory.Factory):
     class Meta:
         model = UpdateTodoItemDto
 
-    msg = factory.Faker("sentence", variable_nb_words=True)
+    msg = factory.Faker("pystr", min_chars=3, max_chars=50)
     is_done = factory.Faker("pybool")

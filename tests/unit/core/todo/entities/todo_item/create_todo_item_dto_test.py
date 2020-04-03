@@ -4,7 +4,7 @@ from typing import Any, Dict
 import pytest
 from pydantic import ValidationError
 
-from tests.utils import assert_validation_error
+from tests.utils.asserts import assert_validation_error
 from todolist.core.todo.entities.todo_item import CreateTodoItemDto
 
 

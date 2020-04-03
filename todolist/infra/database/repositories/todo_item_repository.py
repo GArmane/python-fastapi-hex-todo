@@ -19,7 +19,7 @@ async def create_one(dto: CreateTodoItemDto) -> TodoItem:
     query = Model.insert().values(**values)
 
     last_record_id = await database.execute(query)
-    return TodoItem(**{**values, "id": last_record_id})
+    return TodoItem.parse_obj({**values, "id": last_record_id})
 
 
 async def delete_one(id_: int) -> bool:
@@ -34,13 +34,13 @@ async def delete_one(id_: int) -> bool:
 async def get_all() -> Iterable[TodoItem]:
     query = Model.select()
     results = await database.fetch_all(query)
-    return (TodoItem(**dict(r)) for r in results)
+    return (TodoItem.parse_obj(dict(r)) for r in results)
 
 
 async def get_one_by_id(id_: int) -> Optional[TodoItem]:
     query = Model.select().where(Model.c.id == id_)
     result = await database.fetch_one(query)
-    return TodoItem(**dict(result)) if result else None
+    return TodoItem.parse_obj(dict(result)) if result else None
 
 
 async def replace_one_by_id(dto: CreateTodoItemDto, id_: int) -> Optional[TodoItem]:
@@ -50,7 +50,7 @@ async def replace_one_by_id(dto: CreateTodoItemDto, id_: int) -> Optional[TodoIt
     values = dto.dict()
     query = Model.update().where(Model.c.id == id_).values(**values)
     await database.execute(query)
-    return TodoItem(**{**values, "id": id_})
+    return TodoItem.parse_obj({**values, "id": id_})
 
 
 async def update_one_by_id(dto: UpdateTodoItemDto, id_: int) -> Optional[TodoItem]:
