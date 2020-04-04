@@ -36,5 +36,5 @@ def test_client_factory_fixture():
 
 @pytest.fixture(name="test_client")
 def test_client_fixture(web_app, test_client_factory):
-    clear_database()
-    return test_client_factory(web_app)
+    with clear_database():
+        yield test_client_factory(web_app)

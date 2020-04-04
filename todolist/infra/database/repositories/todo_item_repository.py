@@ -9,9 +9,9 @@ from todolist.infra.database.models.todo_item import TodoItem as Model
 from todolist.infra.database.sqlalchemy import database
 
 
-async def count_by_id(id_: int) -> int:
+async def exist_by_id(id_: int) -> bool:
     query = Model.count().where(Model.c.id == id_)
-    return int(await database.execute(query))
+    return bool(await database.execute(query))
 
 
 async def create_one(dto: CreateTodoItemDto) -> TodoItem:
@@ -23,7 +23,7 @@ async def create_one(dto: CreateTodoItemDto) -> TodoItem:
 
 
 async def delete_one(id_: int) -> bool:
-    if not await count_by_id(id_):
+    if not await exist_by_id(id_):
         return False
 
     query = Model.delete().where(Model.c.id == id_)
@@ -44,7 +44,7 @@ async def get_one_by_id(id_: int) -> Optional[TodoItem]:
 
 
 async def replace_one_by_id(dto: CreateTodoItemDto, id_: int) -> Optional[TodoItem]:
-    if not await count_by_id(id_):
+    if not await exist_by_id(id_):
         return None
 
     values = dto.dict()
@@ -54,7 +54,7 @@ async def replace_one_by_id(dto: CreateTodoItemDto, id_: int) -> Optional[TodoIt
 
 
 async def update_one_by_id(dto: UpdateTodoItemDto, id_: int) -> Optional[TodoItem]:
-    if not await count_by_id(id_):
+    if not await exist_by_id(id_):
         return None
 
     values = dto.dict(exclude_unset=True)
