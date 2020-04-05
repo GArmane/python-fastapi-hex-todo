@@ -1,3 +1,5 @@
+from contextlib import asynccontextmanager
+
 import databases
 from sqlalchemy.engine import create_engine
 from sqlalchemy.schema import MetaData
@@ -17,6 +19,13 @@ metadata = MetaData(
         "pk": "pk_%(table_name)s",
     }
 )
+
+
+@asynccontextmanager
+async def database_context():
+    await connect_database()
+    yield database
+    await disconnect_database()
 
 
 async def connect_database():
