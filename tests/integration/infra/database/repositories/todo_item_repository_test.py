@@ -135,9 +135,7 @@ async def test_replace_one_by_id(database, create_todo_item_dto):
 @pytest.mark.asyncio
 async def test_update_one_by_id(database, create_todo_item_dto, update_todo_item_dto):
     id_ = 1
-    insert_todo_item(
-        {**create_todo_item_dto.dict(), "id": id_}
-    )
+    insert_todo_item({**create_todo_item_dto.dict(), "id": id_})
     getter = attrgetter("msg", "is_done")
 
     async with database.transaction():

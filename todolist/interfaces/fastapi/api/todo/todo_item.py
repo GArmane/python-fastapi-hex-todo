@@ -11,20 +11,10 @@ from todolist.core.todo.entities.todo_item import (
 from todolist.core.todo.services import todo_item_service
 from todolist.infra.database.repositories.todo_item_repository import (
     create_one as repo_create_one,
-)
-from todolist.infra.database.repositories.todo_item_repository import (
     delete_one as repo_delete_one,
-)
-from todolist.infra.database.repositories.todo_item_repository import (
     get_all as repo_get_all,
-)
-from todolist.infra.database.repositories.todo_item_repository import (
     get_one_by_id as repo_get_one_by_id,
-)
-from todolist.infra.database.repositories.todo_item_repository import (
     replace_one_by_id as repo_replace_one_by_id,
-)
-from todolist.infra.database.repositories.todo_item_repository import (
     update_one_by_id as repo_update_one_by_id,
 )
 from todolist.infra.database.sqlalchemy import database
