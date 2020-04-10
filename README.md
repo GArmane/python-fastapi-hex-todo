@@ -19,6 +19,7 @@ This project is comprised of the following languages and libraries:
 * Relational database migrations: [Alembic](https://alembic.sqlalchemy.org/en/latest/)
 * Relational ORM: [SQLAlchemy](https://www.sqlalchemy.org/)
 * Functional programming utilities: [Toolz](https://toolz.readthedocs.io/en/latest/)
+* Password hashing utilities: [Passlib](https://passlib.readthedocs.io/)
 * Data parsing and validation: [Pydantic](https://pydantic-docs.helpmanual.io/)
 * Testing: [Pytest](https://docs.pytest.org/en/latest/)
 * Linter: [Flake8](https://flake8.pycqa.org/en/latest/)
