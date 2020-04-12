@@ -4,13 +4,13 @@ from todolist.core.accounts.entities.user import Credentials, User, UserRegistry
 from todolist.core.accounts.services import hash_service
 
 PersistOneFn = Callable[[UserRegistry], Awaitable[User]]
-FetchByCredentialsFn = Callable[[Credentials], Awaitable[Optional[User]]]
+FetchByEmail = Callable[[str], Awaitable[Optional[User]]]
 
 
 async def get_by_credentials(
-    fetch_user: FetchByCredentialsFn, credentials: Credentials
+    fetch_user: FetchByEmail, credentials: Credentials
 ) -> Optional[User]:
-    user = await fetch_user(credentials)
+    user = await fetch_user(credentials.email)
 
     if not user:
         return None

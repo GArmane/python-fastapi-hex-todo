@@ -2,7 +2,6 @@ from functools import partial
 
 import pytest
 from pytest_factoryboy import register
-
 from tests.factories.entitiy_factories import (
     CreateTodoItemDtoFactory,
     TodoItemFactory,
@@ -18,13 +17,6 @@ FACTORIES = [
 
 for factory in FACTORIES:
     register(factory)
-
-    from asyncio import Future
-
-
-@pytest.fixture(name="repo_fn_factory")
-def repo_fn_factory_fixture(mocker):
-    return lambda name: mocker.MagicMock(name=name, return_value=Future())
 
 
 @pytest.fixture()
