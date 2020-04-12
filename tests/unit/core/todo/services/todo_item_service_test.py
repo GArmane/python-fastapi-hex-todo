@@ -1,5 +1,3 @@
-from asyncio import Future
-
 import pytest
 
 from todolist.core.todo.services.todo_item_service import (
@@ -20,12 +18,6 @@ FETCH_ALL_FN_NAME = "fetch_all_fn"
 FETCH_ONE_FN_NAME = "fetch_one_fn"
 UPDATE_MANY_FN_NAME = "update_many_fn"
 UPDATE_ONE_FN_NAME = "update_one_fn"
-
-
-# Fixtures
-@pytest.fixture(name="repo_fn_factory")
-def repo_fn_factory_fixture(mocker):
-    return lambda name: mocker.MagicMock(name=name, return_value=Future())
 
 
 @pytest.fixture(name=PERSIST_ONE_FN_NAME)

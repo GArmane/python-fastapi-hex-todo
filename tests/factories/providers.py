@@ -8,5 +8,5 @@ fake = Faker()
 
 
 class PasswordHashProvider(BaseProvider):
-    def secret_str(self) -> str:
+    def password_hash(self) -> str:
         return str(argon2.hash(fake.pystr()))

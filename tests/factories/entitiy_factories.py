@@ -21,7 +21,6 @@ class CredentialsFactory(factory.Factory):
     class Meta:
         model = Credentials
 
-    id = factory.Faker("pyint", min_value=0)  # noqa: A003
     email = factory.Faker("email")
     password = factory.Faker("password", length=16)
 
@@ -30,6 +29,7 @@ class UserFactory(factory.Factory):
     class Meta:
         model = User
 
+    id = factory.Faker("pyint", min_value=0)  # noqa: A003
     email = factory.Faker("email")
     password_hash = factory.Faker("password_hash")
 
