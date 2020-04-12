@@ -1,14 +1,16 @@
+from operator import attrgetter
 from typing import Awaitable, Callable, Optional
 
 from todolist.core.accounts.entities.user import Credentials, User, UserRegistry
 from todolist.core.accounts.services import hash_service
+from todolist.core.accounts.services.exceptions import EmailNotUniqueError
 
-PersistOneFn = Callable[[UserRegistry], Awaitable[User]]
-FetchByEmail = Callable[[str], Awaitable[Optional[User]]]
+PersistUserFn = Callable[[UserRegistry], Awaitable[User]]
+FetchUserByEmail = Callable[[str], Awaitable[Optional[User]]]
 
 
 async def get_by_credentials(
-    fetch_user: FetchByEmail, credentials: Credentials
+    fetch_user: FetchUserByEmail, credentials: Credentials
 ) -> Optional[User]:
     user = await fetch_user(credentials.email)
 
@@ -24,8 +26,16 @@ async def get_by_credentials(
     return user
 
 
-async def register(persist_one: PersistOneFn, credentials: Credentials) -> User:
-    password_hash = hash_service.hash_(credentials.password)
-    registry = UserRegistry(email=credentials.email, password_hash=password_hash)
+async def register(
+    fetch_user: FetchUserByEmail, persist_user: PersistUserFn, credentials: Credentials
+) -> User:
+    email, password = attrgetter("email", "password")(credentials)
 
-    return await persist_one(registry)
+    user = await fetch_user(email)
+    if user:
+        raise EmailNotUniqueError
+
+    password_hash = hash_service.hash_(password)
+    registry = UserRegistry(email=email, password_hash=password_hash)
+
+    return await persist_user(registry)
