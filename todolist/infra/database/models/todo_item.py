@@ -9,5 +9,5 @@ TodoItem = Table(
     Column("id", Integer, primary_key=True),
     Column("msg", String(100), nullable=False),
     Column("is_done", Boolean(), nullable=False),
-    CheckConstraint("length(msg) >= 1 AND length(msg) <= 50", name="msg_length",),
+    CheckConstraint("length(msg) >= 1 AND length(msg) <= 50", name="msg_length"),
 )
