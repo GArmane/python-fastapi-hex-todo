@@ -26,6 +26,7 @@ def invalid_data_fixture() -> DataType:
     return {"msg": ["some string"], "is_done": "some bool"}
 
 
+@pytest.mark.unit
 class TestCreateTodoItemDto:
     class TestModel:
         def test_validation(self, valid_data):
