@@ -15,6 +15,7 @@ toolz = "^0.10.0"
 email_validator = "^1.0.5"
 argon2-cffi = "^19.2.0"
 passlib = "^1.7.2"
+sqlalchemy-citext = "^1.6-1"
 
 [tool.poetry.dev-dependencies]
 black = "^19.10b0"

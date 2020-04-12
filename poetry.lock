@@ -760,6 +760,17 @@ pymysql = ["pymysql"]
 
 [[package]]
 category = "main"
+description = "A sqlalchemy plugin that allows postgres use of CITEXT."
+name = "sqlalchemy-citext"
+optional = false
+python-versions = "*"
+version = "1.6-1"
+
+[package.dependencies]
+SQLAlchemy = ">=0.6"
+
+[[package]]
+category = "main"
 description = "The little ASGI library that shines."
 name = "starlette"
 optional = false
@@ -858,7 +869,7 @@ python-versions = ">=3.6.1"
 version = "8.1"
 
 [metadata]
-content-hash = "d534f33dbd8d69a9caf98ac21f5a659a30801580434641c1946e31ec3cccbb5b"
+content-hash = "07cb5e968503ecbae911ebfcd1274f1b6fbc7b05218ab6d24598ea32458e7a75"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -1324,6 +1335,10 @@ snowballstemmer = [
 ]
 sqlalchemy = [
     {file = "SQLAlchemy-1.3.15.tar.gz", hash = "sha256:c4cca4aed606297afbe90d4306b49ad3a4cd36feb3f87e4bfd655c57fd9ef445"},
+]
+sqlalchemy-citext = [
+    {file = "sqlalchemy-citext-1.6-1.tar.gz", hash = "sha256:8da1ea1b7deba4d1884961bd8a03fe1fd2bb2b3242e849e7696401c1fb4d4606"},
+    {file = "sqlalchemy_citext-1.6.post1-py2.py3-none-any.whl", hash = "sha256:1b11d51efc9b772142e22fceb260793265e01f300fdd3af83b0be31cdfb7a5ca"},
 ]
 starlette = [
     {file = "starlette-0.13.2-py3-none-any.whl", hash = "sha256:6169ee78ded501095d1dda7b141a1dc9f9934d37ad23196e180150ace2c6449b"},
