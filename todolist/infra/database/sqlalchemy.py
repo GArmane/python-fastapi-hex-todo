@@ -40,3 +40,11 @@ def init_database() -> None:
     import todolist.infra.database.models  # noqa: F401
 
     metadata.bind = create_engine(_SETTINGS.DATABASE_PG_URL)
+
+
+async def truncate_database() -> None:
+    await database.execute(
+        """TRUNCATE {} RESTART IDENTITY""".format(
+            ",".join(f'"{table.name}"' for table in reversed(metadata.sorted_tables))
+        )
+    )

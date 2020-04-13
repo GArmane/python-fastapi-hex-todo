@@ -1,4 +1,3 @@
-from operator import attrgetter
 from typing import Awaitable, Callable, Optional
 
 from todolist.core.accounts.entities.user import Credentials, User, UserRegistry
@@ -12,7 +11,7 @@ FetchUserByEmail = Callable[[str], Awaitable[Optional[User]]]
 async def get_by_credentials(
     fetch_user: FetchUserByEmail, credentials: Credentials
 ) -> Optional[User]:
-    user = await fetch_user(credentials.email)
+    user = await fetch_user(credentials.email.lower())
 
     if not user:
         return None
@@ -29,13 +28,12 @@ async def get_by_credentials(
 async def register(
     fetch_user: FetchUserByEmail, persist_user: PersistUserFn, credentials: Credentials
 ) -> User:
-    email, password = attrgetter("email", "password")(credentials)
-
-    user = await fetch_user(email)
+    user = await get_by_credentials(fetch_user, credentials)
     if user:
         raise EmailNotUniqueError
 
-    password_hash = hash_service.hash_(password)
+    email = credentials.email.lower()
+    password_hash = hash_service.hash_(credentials.password)
     registry = UserRegistry(email=email, password_hash=password_hash)
 
     return await persist_user(registry)

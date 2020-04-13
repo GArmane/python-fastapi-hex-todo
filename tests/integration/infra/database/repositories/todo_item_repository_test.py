@@ -3,12 +3,13 @@ from operator import attrgetter
 
 import pytest
 from pytest_factoryboy import register
-
 from tests.factories.entitiy_factories import (
     CreateTodoItemDtoFactory,
     UpdateTodoItemDtoFactory,
 )
 from tests.factories.model_factories import insert_todo_item
+from tests.factories.utils import make_many
+
 from todolist.infra.database.repositories.todo_item_repository import (
     create_one,
     delete_one,
@@ -26,10 +27,6 @@ FACTORIES = [
 
 for factory in FACTORIES:
     register(factory)
-
-
-def make_many(factory, amount=3):
-    return [factory() for _ in range(amount)]
 
 
 @pytest.fixture(name="create_todo_item_dto")
