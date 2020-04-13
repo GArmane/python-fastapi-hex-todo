@@ -96,10 +96,18 @@ class TestRegister:
         self, fetch_user_by_email_fn, persist_user_fn, credentials, user
     ):
         # Setup
-        pass
+        email = credentials.email
+        password_hash = hash_(credentials.password)
+
+        fetch_user_by_email_fn.return_value.set_result(
+            User(**{**user.dict(), "email": email, "password_hash": password_hash})
+        )
 
         # Test
-        pass
+        with pytest.raises(EmailNotUniqueError) as excinfo:
+            await register(fetch_user_by_email_fn, persist_user_fn, credentials)
 
         # Assertions
-        pass
+        error = excinfo.value
+        assert error.msg == "email already registered"
+        assert error.details == {"email": email}

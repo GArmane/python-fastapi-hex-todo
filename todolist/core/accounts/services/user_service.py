@@ -28,11 +28,12 @@ async def get_by_credentials(
 async def register(
     fetch_user: FetchUserByEmail, persist_user: PersistUserFn, credentials: Credentials
 ) -> User:
+    email = credentials.email.lower()
+
     user = await get_by_credentials(fetch_user, credentials)
     if user:
-        raise EmailNotUniqueError
+        raise EmailNotUniqueError(email)
 
-    email = credentials.email.lower()
     password_hash = hash_service.hash_(credentials.password)
     registry = UserRegistry(email=email, password_hash=password_hash)
 
