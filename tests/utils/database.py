@@ -5,8 +5,8 @@ from todolist.infra.database.sqlalchemy import init_database, metadata
 
 def _truncate_tables():
     metadata.bind.execute(
-        "TRUNCATE {} RESTART IDENTITY".format(
-            ",".join(table.name for table in reversed(metadata.sorted_tables))
+        """TRUNCATE {} RESTART IDENTITY""".format(
+            ",".join(f'"{table.name}"' for table in reversed(metadata.sorted_tables))
         )
     )
 
