@@ -61,7 +61,7 @@ async def run() -> None:
     async with database_context() as database:
         logger.info("Truncating database")
         await truncate_database()
-        logger.info("Populating PostgreSQL database")
+        logger.info("Populating database")
         for fn in [_populate_todo_item, _populate_user]:
             await fn(database)
         logger.info("Finished populating PostgreSQL database")
