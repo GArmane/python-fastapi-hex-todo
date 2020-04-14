@@ -21,8 +21,8 @@ class User(BaseModel):
 
 
 class UserRegistry(BaseModel):
+    id: int
     email: EmailStr
-    password_hash: str
 
     class Config:
         allow_mutation = False

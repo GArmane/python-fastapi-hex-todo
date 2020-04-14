@@ -1,6 +1,6 @@
 from typing import Optional
 
-from todolist.core.accounts.entities.user import User, UserRegistry
+from todolist.core.accounts.entities.user import User
 from todolist.infra.database.models.user import User as Model
 from todolist.infra.database.sqlalchemy import database
 
@@ -12,8 +12,8 @@ async def fetch_by_email(email: str) -> Optional[User]:
     return User.parse_obj(dict(result)) if result else None
 
 
-async def register(registry: UserRegistry) -> User:
-    values = registry.dict()
+async def register(email: str, password_hash: str) -> User:
+    values = {"email": email, "password_hash": password_hash}
     query = Model.insert().values(**values)
 
     last_record_id = await database.execute(query)

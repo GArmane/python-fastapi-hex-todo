@@ -38,8 +38,8 @@ class UserRegistryFactory(factory.Factory):
     class Meta:
         model = UserRegistry
 
+    id = factory.Faker("pyint", min_value=0)  # noqa: A003
     email = factory.Faker("email")
-    password_hash = factory.Faker("password_hash")
 
 
 # TodoItem

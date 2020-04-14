@@ -39,7 +39,6 @@ class TestGetByCredentials:
         # Assertions
         fetch_user_by_email_fn.assert_called_once_with(email)
         assert result.email == email
-        assert result.password_hash == password_hash
 
     async def test_user_not_found(self, fetch_user_by_email_fn, credentials):
         # Setup
@@ -90,7 +89,6 @@ class TestRegister:
         # Assertions
         persist_user_fn.assert_called_once()
         assert result.email == credentials.email
-        assert result.password_hash != credentials.password
 
     async def test_register_not_unique(
         self, fetch_user_by_email_fn, persist_user_fn, credentials, user
@@ -110,4 +108,4 @@ class TestRegister:
         # Assertions
         error = excinfo.value
         assert error.msg == "email already registered"
-        assert error.details == {"email": email}
+        assert error.email == email
