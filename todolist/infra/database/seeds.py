@@ -29,28 +29,20 @@ async def _populate_table(
 
 async def _populate_user(db: Database) -> None:
     values = [
-        {"id": 1, "email": "john_doe@gmail.com", "password_hash": hash_("dev@1234")},
-        {"id": 2, "email": "jane_doe@gmail.com", "password_hash": hash_("dev2@1234")},
-        {
-            "id": 3,
-            "email": "mark_fisher@yahoo.com",
-            "password_hash": hash_("dev3@1234"),
-        },
-        {
-            "id": 4,
-            "email": "ann_tobias@outlook.com",
-            "password_hash": hash_("dev4@1234"),
-        },
+        {"email": "john_doe@gmail.com", "password_hash": hash_("dev@1234")},
+        {"email": "jane_doe@gmail.com", "password_hash": hash_("dev2@1234")},
+        {"email": "mark_fisher@yahoo.com", "password_hash": hash_("dev3@1234")},
+        {"email": "ann_tobias@outlook.com", "password_hash": hash_("dev4@1234")},
     ]
     await _populate_table(db, User, values)
 
 
 async def _populate_todo_item(db: Database) -> None:
     values = [
-        {"id": 1, "msg": "Program new awesome web app", "is_done": True},
-        {"id": 2, "msg": "Play videogames", "is_done": True},
-        {"id": 3, "msg": "Wash dishes", "is_done": False},
-        {"id": 4, "msg": "Write blog post", "is_done": False},
+        {"msg": "Program new awesome web app", "is_done": True},
+        {"msg": "Play videogames", "is_done": True},
+        {"msg": "Wash dishes", "is_done": False},
+        {"msg": "Write blog post", "is_done": False},
     ]
     await _populate_table(db, TodoItem, values)
 
