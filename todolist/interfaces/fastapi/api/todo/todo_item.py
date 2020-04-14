@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import Response
+from fastapi.responses import JSONResponse  # type: ignore
 from fastapi.routing import APIRouter
 
 from todolist.core.todo.entities.todo_item import (
@@ -19,6 +19,7 @@ router = APIRouter()
 # Handlers
 @router.post(
     "",
+    response_class=JSONResponse,
     response_model=TodoItem,
     status_code=201,
     responses={201: {"description": "Item created"}},
@@ -30,6 +31,7 @@ async def create_one(dto: CreateTodoItemDto):
 
 @router.delete(
     "/{item_id}",
+    response_class=JSONResponse,
     status_code=204,
     responses={
         204: {"description": "Item deleted"},
@@ -41,13 +43,13 @@ async def delete_one(item_id: int):
     result = await todo_item_service.delete_one(
         todo_item_repository.delete_one, item_id
     )
-    if not result:
-        return Response(status_code=404)
-    return Response(status_code=204)
+    status_code = 204 if result else 404
+    return JSONResponse(status_code=status_code)
 
 
 @router.get(
     "",
+    response_class=JSONResponse,
     response_model=List[TodoItem],
     status_code=200,
     responses={200: {"description": "Items found"}},
@@ -59,6 +61,7 @@ async def get_all():
 
 @router.get(
     "/{item_id}",
+    response_class=JSONResponse,
     response_model=TodoItem,
     status_code=200,
     responses={
@@ -70,12 +73,13 @@ async def get_all():
 async def get_one(item_id: int):
     item = await todo_item_service.get_one(todo_item_repository.get_one_by_id, item_id)
     if not item:
-        return Response(status_code=404)
+        return JSONResponse(status_code=404)
     return item
 
 
 @router.put(
     "/{item_id}",
+    response_class=JSONResponse,
     response_model=TodoItem,
     status_code=200,
     responses={
@@ -88,11 +92,12 @@ async def replace_one(dto: CreateTodoItemDto, item_id: int):
     item = await todo_item_service.update_one(
         todo_item_repository.replace_one_by_id, dto, item_id
     )
-    return item if item else Response(status_code=404)
+    return item if item else JSONResponse(status_code=404)
 
 
 @router.patch(
     "/{item_id}",
+    response_class=JSONResponse,
     response_model=TodoItem,
     status_code=200,
     responses={
@@ -105,4 +110,4 @@ async def update_one(dto: UpdateTodoItemDto, item_id: int):
     item = await todo_item_service.update_one(
         todo_item_repository.update_one_by_id, dto, item_id
     )
-    return item if item else Response(status_code=404)
+    return item if item else JSONResponse(status_code=404)
