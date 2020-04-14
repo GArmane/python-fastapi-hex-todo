@@ -54,8 +54,9 @@ To run the API in development mode, follow these steps:
 
 * Start a container with: `plis start --service-ports app ash`
 * Inside the container run: `poetry install`
+* Start the web server with: `poetry run web_server`
+* Seed DB data with: `poetry run seeder`
 * Run migrations with: `alembic upgrade head`
-* Start the web server with: `python -m todolist`
 * Test the API with: `pytest`
 * Check code style with: `black --check todolist`
 * Format code with: `black todolist`
