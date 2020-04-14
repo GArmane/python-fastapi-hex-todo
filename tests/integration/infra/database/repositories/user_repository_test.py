@@ -37,17 +37,16 @@ async def test_fetch_by_email(database, user):
 @pytest.mark.integration
 @pytest.mark.asyncio
 class TestRegister:
-    getter = attrgetter("email", "password_hash")
-
     async def test_unique_insertion(self, database, user):
-        email, password_hash = self.getter(user)
+        getter = attrgetter("email", "password_hash")
+        email, password_hash = getter(user)
 
         async with database.transaction():
             result = await user_repository.register(email, password_hash)
-            assert email, password_hash == self.getter(result)
+            assert email, password_hash == getter(result)
 
     async def test_non_unique_insertion(self, database, user):
-        email, password_hash = self.getter(user)
+        email, password_hash = attrgetter("email", "password_hash")(user)
         register_user({**user.dict()})
 
         with pytest.raises(UniqueViolationError):

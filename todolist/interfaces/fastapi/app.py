@@ -7,7 +7,7 @@ from todolist.infra.database.sqlalchemy import (
     disconnect_database as disconnect_pgsql_db,
 )
 from todolist.infra.database.sqlalchemy import init_database as init_pgsql_db
-from todolist.interfaces.fastapi.api import root, todo
+from todolist.interfaces.fastapi.api import account, root, todo
 
 
 def _create_instance(settings: Settings) -> FastAPI:
@@ -41,6 +41,7 @@ def _register_middlewares(app: FastAPI) -> FastAPI:
 
 def _register_routers(app: FastAPI) -> FastAPI:
     app.include_router(root.router)
+    app.include_router(account.router, prefix="/account")
     app.include_router(todo.router, prefix="/todo")
     return app
 

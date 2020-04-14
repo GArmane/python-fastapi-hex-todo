@@ -8,7 +8,7 @@ from tests.factories.entitiy_factories import (
     TodoItemFactory,
     UpdateTodoItemDtoFactory,
 )
-
+from tests.factories.utils import make_many
 
 FACTORIES = [
     CreateTodoItemDtoFactory,
@@ -18,10 +18,6 @@ FACTORIES = [
 
 for factory in FACTORIES:
     register(factory)
-
-
-def make_many(factory, amount=3):
-    return [factory() for _ in range(amount)]
 
 
 @pytest.fixture()

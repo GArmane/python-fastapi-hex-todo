@@ -34,11 +34,11 @@ class TestGetByCredentials:
         )
 
         # Test
-        result: User = await get_by_credentials(fetch_user_by_email_fn, credentials)
+        result = await get_by_credentials(fetch_user_by_email_fn, credentials)
 
         # Assertions
         fetch_user_by_email_fn.assert_called_once_with(email)
-        assert result.email == email
+        assert result and result.email == email
 
     async def test_user_not_found(self, fetch_user_by_email_fn, credentials):
         # Setup
