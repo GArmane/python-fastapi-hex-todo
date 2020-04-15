@@ -6,10 +6,11 @@ from todolist.core.accounts.services.exceptions import EmailNotUniqueError
 
 PersistUserFn = Callable[[str, str], Awaitable[User]]
 FetchUserByEmail = Callable[[str], Awaitable[Optional[User]]]
+FetchUserById = Callable[[int], Awaitable[Optional[User]]]
 
 
 async def get_by_credentials(
-    fetch_user: FetchUserByEmail, credentials: Credentials
+    fetch_user: FetchUserByEmail, credentials: Credentials,
 ) -> Optional[UserRegistry]:
     user = await fetch_user(credentials.email.lower())
 
@@ -23,6 +24,11 @@ async def get_by_credentials(
         return None
 
     return UserRegistry(**user.dict())
+
+
+async def get_by_id(fetch_user: FetchUserById, id_: int) -> Optional[UserRegistry]:
+    user = await fetch_user(id_)
+    return UserRegistry(**user.dict()) if user else None
 
 
 async def register(

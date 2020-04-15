@@ -25,13 +25,36 @@ def user_fixture(user_factory):
 
 @pytest.mark.integration
 @pytest.mark.asyncio
-async def test_fetch_by_email(database, user):
-    register_user({**user.dict()})
-    getter = attrgetter("email", "password_hash")
+class TestFetchByEmail:
+    async def test_has_result(self, database, user):
+        register_user({**user.dict()})
+        getter = attrgetter("email", "password_hash")
 
-    async with database.transaction():
-        result = await user_repository.fetch_by_email(user.email)
-        assert getter(user) == getter(result)
+        async with database.transaction():
+            result = await user_repository.fetch_by_email(user.email)
+            assert getter(user) == getter(result)
+
+    async def test_has_no_result(self, database, user):
+        async with database.transaction():
+            result = await user_repository.fetch_by_email(user.email)
+            assert not result
+
+
+@pytest.mark.integration
+@pytest.mark.asyncio
+class TestFetchById:
+    async def test_has_result(self, database, user):
+        register_user({**user.dict()})
+        getter = attrgetter("email", "password_hash")
+
+        async with database.transaction():
+            result = await user_repository.fetch_by_id(user.id)
+            assert getter(user) == getter(result)
+
+    async def test_has_no_result(self, database, user):
+        async with database.transaction():
+            result = await user_repository.fetch_by_id(user.id)
+            assert not result
 
 
 @pytest.mark.integration

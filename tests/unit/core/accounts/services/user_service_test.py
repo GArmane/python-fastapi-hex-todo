@@ -2,17 +2,23 @@ import pytest
 
 from todolist.core.accounts.entities.user import User
 from todolist.core.accounts.services.exceptions import EmailNotUniqueError
-from todolist.core.accounts.services.hash_service import hash_
-from todolist.core.accounts.services.user_service import get_by_credentials, register
+from todolist.core.accounts.services import hash_service
+from todolist.core.accounts.services import user_service
 
 # Consts
 FETCH_BY_EMAIL_FN_NAME = "fetch_user_by_email_fn"
+FETCH_BY_ID_FN_NAME = "fetch_by_id_fn"
 PERSIST_ONE_FN_NAME = "persist_user_fn"
 
 
 @pytest.fixture(name=FETCH_BY_EMAIL_FN_NAME)
 def fetch_by_email_fixture(repo_fn_factory):
     return repo_fn_factory(FETCH_BY_EMAIL_FN_NAME)
+
+
+@pytest.fixture(name=FETCH_BY_ID_FN_NAME)
+def fetch_by_id_fixture(repo_fn_factory):
+    return repo_fn_factory(FETCH_BY_ID_FN_NAME)
 
 
 @pytest.fixture(name=PERSIST_ONE_FN_NAME)
@@ -27,14 +33,16 @@ class TestGetByCredentials:
     async def test_valid_credentials(self, fetch_user_by_email_fn, credentials, user):
         # Setup
         email = credentials.email
-        password_hash = hash_(credentials.password)
+        password_hash = hash_service.hash_(credentials.password)
 
         fetch_user_by_email_fn.return_value.set_result(
             User(**{**user.dict(), "email": email, "password_hash": password_hash})
         )
 
         # Test
-        result = await get_by_credentials(fetch_user_by_email_fn, credentials)
+        result = await user_service.get_by_credentials(
+            fetch_user_by_email_fn, credentials
+        )
 
         # Assertions
         fetch_user_by_email_fn.assert_called_once_with(email)
@@ -45,7 +53,9 @@ class TestGetByCredentials:
         fetch_user_by_email_fn.return_value.set_result(None)
 
         # Test
-        result = await get_by_credentials(fetch_user_by_email_fn, credentials)
+        result = await user_service.get_by_credentials(
+            fetch_user_by_email_fn, credentials
+        )
 
         # Assertions
         fetch_user_by_email_fn.assert_called_once_with(credentials.email)
@@ -54,17 +64,51 @@ class TestGetByCredentials:
     async def test_invalid_credentials(self, fetch_user_by_email_fn, credentials, user):
         # Setup
         email = credentials.email
-        password_hash = hash_("other password")
+        password_hash = hash_service.hash_("other password")
 
         fetch_user_by_email_fn.return_value.set_result(
             User(**{**user.dict(), "email": email, "password_hash": password_hash})
         )
 
         # Test
-        result = await get_by_credentials(fetch_user_by_email_fn, credentials)
+        result = await user_service.get_by_credentials(
+            fetch_user_by_email_fn, credentials
+        )
 
         # Assertions
         fetch_user_by_email_fn.assert_called_once_with(email)
+        assert not result
+
+
+@pytest.mark.unit
+@pytest.mark.asyncio
+class TestGetById:
+    async def test_valid_id(self, fetch_by_id_fn, user):
+        # Setup
+        id_ = 1
+        fetch_by_id_fn.return_value.set_result(User(**{**user.dict(), "id": id_}))
+
+        # Test
+        result = await user_service.get_by_id(
+            fetch_by_id_fn, id_
+        )
+
+        # Assertions
+        fetch_by_id_fn.assert_called_once_with(id_)
+        assert result and result.id == id_
+
+    async def test_invalid_id(self, fetch_by_id_fn):
+        # Setup
+        id_ = 1
+        fetch_by_id_fn.return_value.set_result(None)
+
+        # Test
+        result = await user_service.get_by_id(
+            fetch_by_id_fn, id_
+        )
+
+        # Assertions
+        fetch_by_id_fn.assert_called_once_with(id_)
         assert not result
 
 
@@ -76,7 +120,7 @@ class TestRegister:
     ):
         # Setup
         email = credentials.email
-        password_hash = hash_(credentials.password)
+        password_hash = hash_service.hash_(credentials.password)
 
         persist_user_fn.return_value.set_result(
             User(**{**user.dict(), "email": email, "password_hash": password_hash})
@@ -84,7 +128,9 @@ class TestRegister:
         fetch_user_by_email_fn.return_value.set_result(None)
 
         # Test
-        result = await register(fetch_user_by_email_fn, persist_user_fn, credentials)
+        result = await user_service.register(
+            fetch_user_by_email_fn, persist_user_fn, credentials
+        )
 
         # Assertions
         persist_user_fn.assert_called_once()
@@ -95,7 +141,7 @@ class TestRegister:
     ):
         # Setup
         email = credentials.email
-        password_hash = hash_(credentials.password)
+        password_hash = hash_service.hash_(credentials.password)
 
         fetch_user_by_email_fn.return_value.set_result(
             User(**{**user.dict(), "email": email, "password_hash": password_hash})
@@ -103,7 +149,9 @@ class TestRegister:
 
         # Test
         with pytest.raises(EmailNotUniqueError) as excinfo:
-            await register(fetch_user_by_email_fn, persist_user_fn, credentials)
+            await user_service.register(
+                fetch_user_by_email_fn, persist_user_fn, credentials
+            )
 
         # Assertions
         error = excinfo.value

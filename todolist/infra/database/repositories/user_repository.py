@@ -12,6 +12,13 @@ async def fetch_by_email(email: str) -> Optional[User]:
     return User.parse_obj(dict(result)) if result else None
 
 
+async def fetch_by_id(id_: int) -> Optional[User]:
+    query = Model.select().where(Model.c.id == id_)
+    result = await database.fetch_one(query)
+
+    return User.parse_obj(dict(result)) if result else None
+
+
 async def register(email: str, password_hash: str) -> User:
     values = {"email": email, "password_hash": password_hash}
     query = Model.insert().values(**values)
