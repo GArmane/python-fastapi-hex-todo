@@ -29,10 +29,10 @@ async def _populate_table(
 
 async def _populate_user(db: Database) -> None:
     values = [
-        {"email": "john_doe@gmail.com", "password_hash": hash_("dev@1234")},
-        {"email": "jane_doe@gmail.com", "password_hash": hash_("dev2@1234")},
-        {"email": "mark_fisher@yahoo.com", "password_hash": hash_("dev3@1234")},
-        {"email": "ann_tobias@outlook.com", "password_hash": hash_("dev4@1234")},
+        {"email": "john.doe@gmail.com", "password_hash": hash_("dev@1234")},
+        {"email": "jane.doe@gmail.com", "password_hash": hash_("dev2@1234")},
+        {"email": "mark.fisher@yahoo.com", "password_hash": hash_("dev3@1234")},
+        {"email": "ann.tobias@outlook.com", "password_hash": hash_("dev4@1234")},
     ]
     await _populate_table(db, User, values)
 

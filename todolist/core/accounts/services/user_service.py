@@ -2,7 +2,10 @@ from typing import Awaitable, Callable, Optional
 
 from todolist.core.accounts.entities.user import Credentials, User, UserRegistry
 from todolist.core.accounts.services import hash_service
-from todolist.core.accounts.services.exceptions import EmailNotUniqueError
+from todolist.core.accounts.services.exceptions import (
+    EmailNotUniqueError,
+    UserNotFoundError,
+)
 
 PersistUserFn = Callable[[str, str], Awaitable[User]]
 FetchUserByEmail = Callable[[str], Awaitable[Optional[User]]]
@@ -29,6 +32,13 @@ async def get_by_credentials(
 async def get_by_id(fetch_user: FetchUserById, id_: int) -> Optional[UserRegistry]:
     user = await fetch_user(id_)
     return UserRegistry(**user.dict()) if user else None
+
+
+async def get_by_id_or_raise(fetch_user: FetchUserById, id_: int) -> UserRegistry:
+    user = await get_by_id(fetch_user, id_)
+    if not user:
+        raise UserNotFoundError(id_)
+    return user
 
 
 async def register(

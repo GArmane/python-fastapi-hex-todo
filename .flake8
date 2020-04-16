@@ -5,6 +5,7 @@ max-complexity = 10
 count = True
 statistics = True
 ignore =
+    B008,
     D100,
     D101,
     D102,

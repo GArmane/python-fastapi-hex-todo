@@ -1,9 +1,11 @@
 import pytest
 
 from todolist.core.accounts.entities.user import User
-from todolist.core.accounts.services.exceptions import EmailNotUniqueError
-from todolist.core.accounts.services import hash_service
-from todolist.core.accounts.services import user_service
+from todolist.core.accounts.services import hash_service, user_service
+from todolist.core.accounts.services.exceptions import (
+    EmailNotUniqueError,
+    UserNotFoundError,
+)
 
 # Consts
 FETCH_BY_EMAIL_FN_NAME = "fetch_user_by_email_fn"
@@ -89,9 +91,7 @@ class TestGetById:
         fetch_by_id_fn.return_value.set_result(User(**{**user.dict(), "id": id_}))
 
         # Test
-        result = await user_service.get_by_id(
-            fetch_by_id_fn, id_
-        )
+        result = await user_service.get_by_id(fetch_by_id_fn, id_)
 
         # Assertions
         fetch_by_id_fn.assert_called_once_with(id_)
@@ -103,13 +103,42 @@ class TestGetById:
         fetch_by_id_fn.return_value.set_result(None)
 
         # Test
-        result = await user_service.get_by_id(
-            fetch_by_id_fn, id_
-        )
+        result = await user_service.get_by_id(fetch_by_id_fn, id_)
 
         # Assertions
         fetch_by_id_fn.assert_called_once_with(id_)
         assert not result
+
+
+@pytest.mark.unit
+@pytest.mark.asyncio
+class TestGetByIdOrRaise:
+    async def test_valid_id(self, fetch_by_id_fn, user):
+        # Setup
+        id_ = 1
+        fetch_by_id_fn.return_value.set_result(User(**{**user.dict(), "id": id_}))
+
+        # Test
+        result = await user_service.get_by_id_or_raise(fetch_by_id_fn, id_)
+
+        # Assertions
+        fetch_by_id_fn.assert_called_once_with(id_)
+        assert result and result.id == id_
+
+    async def test_invalid_id(self, fetch_by_id_fn):
+        # Setup
+        id_ = 1
+        fetch_by_id_fn.return_value.set_result(None)
+
+        # Test
+        with pytest.raises(UserNotFoundError) as excinfo:
+            await user_service.get_by_id_or_raise(fetch_by_id_fn, id_)
+
+        # Assertions
+        fetch_by_id_fn.assert_called_once_with(id_)
+        error = excinfo.value
+        assert error.msg == "user not found"
+        assert error.user_id == id_
 
 
 @pytest.mark.unit

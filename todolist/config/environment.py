@@ -9,6 +9,9 @@ class Settings(BaseSettings):
     PYTHONPATH: str
     LOG_LEVEL: str
     DATABASE_PG_URL: PostgresDsn
+    JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int
+    JWT_ALGORITHM: str
+    JWT_SECRET_KEY: str
     WEB_APP_DEBUG: bool
     WEB_APP_DESCRIPTION: str
     WEB_APP_TITLE: str

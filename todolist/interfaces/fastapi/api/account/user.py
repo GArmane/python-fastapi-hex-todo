@@ -10,7 +10,7 @@ from todolist.infra.database.repositories import user_repository
 from todolist.infra.database.sqlalchemy import database
 
 # Router
-router = APIRouter()
+router = APIRouter(default_response_class=JSONResponse)
 
 
 # View Models
@@ -26,7 +26,6 @@ class EmailNotUniqueResponse(BaseModel):
 @router.post(
     "",
     status_code=201,
-    response_class=JSONResponse,
     response_model=UserRegistry,
     responses={
         201: {"description": "User registered", "model": UserRegistry},

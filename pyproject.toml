@@ -12,9 +12,11 @@ argon2-cffi = "^19.2.0"
 databases = {version = "^0.2.6", extras = ["postgresql"]}
 email_validator = "^1.0.5"
 fastapi = {extras = ["email_validator", "requests"], version = "^0.52.0"}
-uvicorn = "^0.11.3"
-toolz = "^0.10.0"
 passlib = "^1.7.2"
+pyjwt = "^1.7.1"
+python-multipart = "^0.0.5"
+toolz = "^0.10.0"
+uvicorn = "^0.11.3"
 
 [tool.poetry.dev-dependencies]
 black = "^19.10b0"

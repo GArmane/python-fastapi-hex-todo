@@ -23,6 +23,9 @@ services:
             LOG_LEVEL: "debug"
             PYTHONPATH: "/home/python/app"
             DATABASE_PG_URL: "postgresql://postgres:dev1234@pgsql-db/todolist_dev"
+            JWT_ACCESS_TOKEN_EXPIRE_MINUTES: 30
+            JWT_ALGORITHM: "HS256"
+            JWT_SECRET_KEY: "e8ea520c75684a5022f38fcda321522b199c953f421b631bb135bfd2ff6b1864"
             WEB_APP_DEBUG: "true"
             WEB_APP_DESCRIPTION: "Todolist Task Management Application"
             WEB_APP_TITLE: "Todolist"
