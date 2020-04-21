@@ -2,6 +2,7 @@ from functools import partial
 
 import pytest
 from pytest_factoryboy import register
+
 from tests.factories.entitiy_factories import (
     CreateTodoItemDtoFactory,
     TodoItemFactory,
@@ -47,3 +48,8 @@ def update_todo_item_dto(update_todo_item_dto_factory):
 @pytest.fixture()
 def update_todo_item_dtos(update_todo_item_dto_factory):
     return partial(make_many, update_todo_item_dto_factory)
+
+
+@pytest.fixture()
+def user_registry(user_registry_factory):
+    return user_registry_factory()

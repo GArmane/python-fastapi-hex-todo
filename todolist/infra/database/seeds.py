@@ -35,14 +35,16 @@ async def _populate_user(db: Database) -> None:
         {"email": "ann.tobias@outlook.com", "password_hash": hash_("dev4@1234")},
     ]
     await _populate_table(db, User, values)
+    for index, _ in enumerate(values):
+        await _populate_todo_item(db, index + 1)
 
 
-async def _populate_todo_item(db: Database) -> None:
+async def _populate_todo_item(db: Database, user_id: int) -> None:
     values = [
-        {"msg": "Program new awesome web app", "is_done": True},
-        {"msg": "Play videogames", "is_done": True},
-        {"msg": "Wash dishes", "is_done": False},
-        {"msg": "Write blog post", "is_done": False},
+        {"msg": "Program new awesome web app", "is_done": True, "user_id": user_id},
+        {"msg": "Play videogames", "is_done": True, "user_id": user_id},
+        {"msg": "Wash dishes", "is_done": False, "user_id": user_id},
+        {"msg": "Write blog post", "is_done": False, "user_id": user_id},
     ]
     await _populate_table(db, TodoItem, values)
 
@@ -54,6 +56,6 @@ async def run() -> None:
         logger.info("Truncating database")
         await truncate_database()
         logger.info("Populating database")
-        for fn in [_populate_todo_item, _populate_user]:
+        for fn in [_populate_user]:
             await fn(database)
         logger.info("Finished populating PostgreSQL database")
