@@ -2,6 +2,7 @@
 omit =
     todolist/__main__.py
     todolist/__init__.py
+    todolist/**/protocols/*
     todolist/infra/database/alembic/*
     todolist/infra/database/seeds.py
     todolist/infra/database/sqlalchemy.py

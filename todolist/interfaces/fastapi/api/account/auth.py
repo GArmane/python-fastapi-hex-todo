@@ -1,29 +1,31 @@
 from datetime import datetime, timedelta
 from enum import Enum
 from operator import attrgetter
-from typing import Any, Dict
+from typing import Any, Dict, cast
 
 import jwt
 from fastapi import Depends, HTTPException  # type: ignore
 from fastapi.responses import JSONResponse  # type: ignore
 from fastapi.routing import APIRouter
-from fastapi.security import (  # type: ignore
-    OAuth2PasswordBearer,
-    OAuth2PasswordRequestForm,
-)
+from fastapi.security import OAuth2PasswordBearer  # type: ignore
+from fastapi.security import OAuth2PasswordRequestForm  # type: ignore
 from pydantic import BaseModel
 
 from todolist.config.environment import get_initial_settings
 from todolist.core.accounts.entities.user import Credentials, UserRegistry
+from todolist.core.accounts.protocols import UserRepo
 from todolist.core.accounts.services import user_service
 from todolist.infra.database.repositories import user_repository
 
 _secret_key, _expire_minutes, _algorithm = attrgetter(
     "JWT_SECRET_KEY", "JWT_ACCESS_TOKEN_EXPIRE_MINUTES", "JWT_ALGORITHM"
 )(get_initial_settings())
+
 _credentials_exception = HTTPException(
     status_code=401, detail="invalid token", headers={"WWW-Authenticate": "Bearer"},
 )
+
+repo = cast(UserRepo, user_repository)
 
 
 # View models
@@ -65,7 +67,7 @@ def _encode_token(*, data: Dict[str, Any], expires_delta: timedelta) -> Token:
 # Authorizers
 async def get_current_user(token: str = Depends(oauth2_scheme)) -> UserRegistry:
     id_ = _decode_token(token)
-    user = await user_service.get_by_id_or_raise(user_repository.fetch_by_id, id_)
+    user = await user_service.get_by_id_or_raise(repo, id_)
     return user
 
 
@@ -82,9 +84,7 @@ async def token(form_data: OAuth2PasswordRequestForm = Depends()):
     username, password = attrgetter("username", "password")(form_data)
     credentials = Credentials(email=username, password=password)
 
-    user = await user_service.get_by_credentials(
-        user_repository.fetch_by_email, credentials
-    )
+    user = await user_service.get_by_credentials(repo, credentials)
     if not user:
         raise HTTPException(
             status_code=401, detail="invalid authentication credentials",
