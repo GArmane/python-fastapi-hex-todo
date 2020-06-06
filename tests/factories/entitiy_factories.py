@@ -50,6 +50,7 @@ class TodoItemFactory(factory.Factory):
     id = factory.Faker("pyint", min_value=0)  # noqa: A003
     msg = factory.Faker("pystr", min_chars=3, max_chars=50)
     is_done = factory.Faker("pybool")
+    user_id = factory.Faker("pyint", min_value=0)
 
 
 class CreateTodoItemDtoFactory(factory.Factory):

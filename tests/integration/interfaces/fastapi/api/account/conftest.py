@@ -6,18 +6,14 @@ from pytest_factoryboy import register
 from tests.factories.entitiy_factories import CredentialsFactory, UserFactory
 from tests.factories.utils import make_many
 
+
 FACTORIES = [
-    UserFactory,
     CredentialsFactory,
+    UserFactory,
 ]
 
 for factory in FACTORIES:
     register(factory)
-
-
-@pytest.fixture()
-def credentials(credentials_factory):
-    return credentials_factory()
 
 
 @pytest.fixture()

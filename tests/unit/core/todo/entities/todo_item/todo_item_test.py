@@ -18,12 +18,18 @@ def valid_data_fixture() -> DataType:
         "id": 1,
         "msg": "some message",
         "is_done": True,
+        "user_id": 1,
     }
 
 
 @pytest.fixture(name="invalid_data")
 def invalid_data_fixture() -> DataType:
-    return {"id": "some integer", "msg": ["some string"], "is_done": "some bool"}
+    return {
+        "id": "some integer",
+        "msg": ["some string"],
+        "is_done": "some bool",
+        "user_id": "some id",
+    }
 
 
 @pytest.mark.unit
@@ -103,6 +109,23 @@ class TestTodoItem:
         def test_is_required(self, valid_data):
             with pytest.raises(ValidationError) as excinfo:
                 valid_data.pop("is_done")
+                TodoItem(**valid_data)
+
+            self.assert_validation_error("value_error.missing", excinfo)
+
+    class TestUserId:
+        assert_validation_error = partial(assert_validation_error, 1, "user_id")
+
+        def test_must_be_int(self, valid_data):
+            with pytest.raises(ValidationError) as excinfo:
+                valid_data.update({"user_id": "some integer"})
+                TodoItem(**valid_data)
+
+            self.assert_validation_error("type_error.integer", excinfo)
+
+        def test_is_required(self, valid_data):
+            with pytest.raises(ValidationError) as excinfo:
+                valid_data.pop("user_id")
                 TodoItem(**valid_data)
 
             self.assert_validation_error("value_error.missing", excinfo)

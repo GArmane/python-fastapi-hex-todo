@@ -68,7 +68,7 @@ async def replace_one_by_id(
         .values(**values)
     )
     await database.execute(query)
-    return TodoItem.parse_obj({**values, "id": id_})
+    return TodoItem.parse_obj({**values, "id": id_, "user_id": user.id})
 
 
 async def update_one_by_id(

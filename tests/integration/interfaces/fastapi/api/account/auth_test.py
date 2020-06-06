@@ -1,42 +1,14 @@
 import jwt
 import pytest
-from operator import attrgetter
 
 from tests.factories.model_factories import register_user
+from tests.utils.auth import (
+    build_form_data,
+    oauth2_instrospect_url,
+    oauth2_token_url,
+    secret_key,
+)
 from todolist.core.accounts.services import hash_service
-from todolist.core.accounts.entities.user import User
-from todolist.config.environment import get_initial_settings
-
-
-secret_key = attrgetter("JWT_SECRET_KEY")(get_initial_settings())
-oauth2_token_url = "/account/oauth2/token"
-oauth2_instrospect_url = "/account/oauth2/instrospect"
-
-
-def build_form_data(credentials):
-    return {
-        "grant_type": "password",
-        "username": credentials.email,
-        "password": credentials.password,
-    }
-
-
-@pytest.fixture(name="user_login")
-def user_login(test_client, credentials):
-    id_ = 1
-    email = credentials.email
-    password_hash = hash_service.hash_(credentials.password)
-
-    register_user(
-        {"id": id_, "email": credentials.email, "password_hash": password_hash}
-    )
-    with test_client as client:
-        response = client.post(oauth2_token_url, data=build_form_data(credentials))
-        body = response.json()
-        return (
-            User(id=id_, email=email, password_hash=password_hash),
-            body["access_token"],
-        )
 
 
 @pytest.mark.integration
@@ -65,8 +37,8 @@ class TestOAuth2Token:
 
 @pytest.mark.integration
 class TestOAuth2Introspect:
-    def test_success(self, test_client, user_login):
-        user, access_token = user_login
+    def test_success(self, test_client, logged_user):
+        user, access_token = logged_user
         with test_client as client:
             response = client.get(
                 oauth2_instrospect_url,

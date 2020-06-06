@@ -10,6 +10,7 @@ class TodoItem(BaseModel):
     id: int
     msg: str = MsgType
     is_done: bool
+    user_id: int
 
     class Config:
         allow_mutation = False

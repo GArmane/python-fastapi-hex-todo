@@ -17,24 +17,13 @@ def initial_env_settings_fixture():
     return get_initial_settings()
 
 
-# Web app fixtures
-@pytest.fixture(name="web_app_factory")
-def web_app_factory_fixture():
-    return lambda settings: init_app(settings)
-
-
 @pytest.fixture(name="web_app")
-def web_app_fixture(web_app_factory, current_env_settings):
-    return web_app_factory(current_env_settings)
+def web_app_fixture(initial_env_settings):
+    return init_app(initial_env_settings)
 
 
 # Test client fixtures
-@pytest.fixture(name="test_client_factory")
-def test_client_factory_fixture():
-    return lambda app: TestClient(app)
-
-
 @pytest.fixture(name="test_client")
-def test_client_fixture(web_app, test_client_factory):
+def test_client_fixture(web_app):
     with clear_database():
-        yield test_client_factory(web_app)
+        yield TestClient(web_app)
