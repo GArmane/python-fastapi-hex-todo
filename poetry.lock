@@ -882,7 +882,7 @@ python-versions = ">=3.6.1"
 version = "8.1"
 
 [metadata]
-content-hash = "ae5763e8f48e8b667e0bf69833869eb1d5980bffd7a67dec4165d8408c44b414"
+content-hash = "2ed037fae6a5723c8be9b212ac0500fa3869f51dbcdd0b2e5085b5a03ae19eba"
 python-versions = "^3.8"
 
 [metadata.files]
