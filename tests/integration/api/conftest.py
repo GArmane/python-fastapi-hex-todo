@@ -11,7 +11,7 @@ from tests.utils.database import clear_database
 from todolist.config.environment import get_current_settings, get_initial_settings
 from todolist.core.accounts.entities.user import User
 from todolist.core.accounts.services import hash_service
-from todolist.interfaces.fastapi.app import init_app
+from todolist.api import init_app
 
 
 LoggedUser = namedtuple("LoggedUser", ["user", "access_token"])

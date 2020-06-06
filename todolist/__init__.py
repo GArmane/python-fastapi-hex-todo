@@ -1,7 +1,7 @@
 import uvicorn
 
 from todolist.config.environment import get_current_settings
-from todolist.interfaces.fastapi.app import init_app
+from todolist.api import init_app
 
 
 _SETTINGS = get_current_settings()

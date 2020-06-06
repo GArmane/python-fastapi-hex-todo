@@ -6,6 +6,7 @@ from pydantic import BaseModel, Field
 
 from todolist.config.environment import get_current_settings
 
+
 router = APIRouter()
 
 

@@ -14,7 +14,7 @@ from todolist.core.todo.protocols import TodoItemRepo
 from todolist.core.todo.services import todo_item_service
 from todolist.infra.database.repositories import todo_item_repository
 from todolist.infra.database.sqlalchemy import database
-from todolist.interfaces.fastapi.account.auth import get_current_user
+from todolist.api.account.auth import get_current_user
 
 repo = cast(TodoItemRepo, todo_item_repository)
 router = APIRouter()
