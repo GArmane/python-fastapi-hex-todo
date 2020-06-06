@@ -36,7 +36,7 @@ services:
 
     app:
         <<: *base
-        command: /bin/ash -c "poetry install && alembic upgrade head && uvicorn todolist:web_app --host 0.0.0.0 --reload"
+        command: /bin/ash -c "poetry install && alembic upgrade head && poetry run web_server"
         ports:
           - "8000:8000"
         depends_on:
