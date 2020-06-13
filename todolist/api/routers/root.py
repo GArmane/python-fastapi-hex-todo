@@ -4,7 +4,7 @@ from fastapi import status
 from fastapi.routing import APIRouter
 from pydantic import BaseModel, Field
 
-from todolist.config.environment import get_current_settings
+from todolist.config.environment import get_settings
 
 
 router = APIRouter()
@@ -33,7 +33,7 @@ class HealthCheck(BaseModel):
     description="Performs health check and returns information about running service.",
 )
 def health_check():
-    settings = get_current_settings()
+    settings = get_settings()
     return {
         "title": settings.WEB_APP_TITLE,
         "description": settings.WEB_APP_DESCRIPTION,

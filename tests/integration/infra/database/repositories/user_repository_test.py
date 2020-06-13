@@ -4,7 +4,7 @@ import pytest
 from asyncpg.exceptions import UniqueViolationError
 from pytest_factoryboy import register
 
-from tests.factories.entitiy_factories import UserFactory
+from tests.factories.entity_factories import UserFactory
 from tests.factories.model_factories import register_user
 from todolist.infra.database.repositories import user_repository
 

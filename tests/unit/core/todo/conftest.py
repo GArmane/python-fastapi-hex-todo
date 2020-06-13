@@ -3,7 +3,7 @@ from functools import partial
 import pytest
 from pytest_factoryboy import register
 
-from tests.factories.entitiy_factories import (
+from tests.factories.entity_factories import (
     CreateTodoItemDtoFactory,
     TodoItemFactory,
     UpdateTodoItemDtoFactory,

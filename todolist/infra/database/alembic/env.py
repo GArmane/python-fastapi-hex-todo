@@ -6,10 +6,10 @@ from sqlalchemy import engine_from_config, pool
 
 import todolist.infra.database.models
 from alembic import context
-from todolist.config.environment import get_initial_settings
+from todolist.config.environment import get_settings
 from todolist.infra.database.sqlalchemy import metadata
 
-_SETTINGS = get_initial_settings()
+_SETTINGS = get_settings()
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

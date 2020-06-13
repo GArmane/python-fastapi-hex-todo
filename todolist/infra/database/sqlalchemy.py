@@ -4,9 +4,9 @@ import databases
 from sqlalchemy.engine import create_engine
 from sqlalchemy.schema import MetaData
 
-from todolist.config.environment import get_initial_settings
+from todolist.config.environment import get_settings
 
-_SETTINGS = get_initial_settings()
+_SETTINGS = get_settings()
 
 
 database = databases.Database(_SETTINGS.DATABASE_PG_URL)

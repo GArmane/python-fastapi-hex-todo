@@ -1,18 +1,16 @@
-from typing import cast
-
 from fastapi.exceptions import HTTPException
 from fastapi.responses import JSONResponse  # type: ignore
 from fastapi.routing import APIRouter
 from pydantic import BaseModel
 
+from todolist.api.container import get_dependencies
 from todolist.core.accounts.entities.user import Credentials, UserRegistry
-from todolist.core.accounts.protocols import UserRepo
 from todolist.core.accounts.services import user_service
 from todolist.core.accounts.services.exceptions import EmailNotUniqueError
-from todolist.infra.database.repositories import user_repository
 from todolist.infra.database.sqlalchemy import database
 
-repo = cast(UserRepo, user_repository)
+
+repo = get_dependencies().user_repo
 router = APIRouter(default_response_class=JSONResponse)
 
 

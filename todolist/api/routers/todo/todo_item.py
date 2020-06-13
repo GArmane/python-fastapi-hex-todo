@@ -1,22 +1,22 @@
-from typing import List, cast
+from typing import List
 
 from fastapi.param_functions import Depends
 from fastapi.responses import JSONResponse  # type: ignore
 from fastapi.routing import APIRouter
 
+from todolist.api.container import get_dependencies
+from todolist.api.routers.account.auth import get_current_user
 from todolist.core.accounts.entities.user import UserRegistry
 from todolist.core.todo.entities.todo_item import (
     CreateTodoItemDto,
     TodoItem,
     UpdateTodoItemDto,
 )
-from todolist.core.todo.protocols import TodoItemRepo
 from todolist.core.todo.services import todo_item_service
-from todolist.infra.database.repositories import todo_item_repository
 from todolist.infra.database.sqlalchemy import database
-from todolist.api.account.auth import get_current_user
 
-repo = cast(TodoItemRepo, todo_item_repository)
+
+repo = get_dependencies().todo_item_repo
 router = APIRouter()
 
 

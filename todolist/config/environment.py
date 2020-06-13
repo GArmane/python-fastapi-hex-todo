@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     WEB_SERVER_RELOAD: bool
 
 
-def _initial_settings_clojure() -> Callable[[], Settings]:
+def _configure_initial_settings() -> Callable[[], Settings]:
     load_dotenv()
     settings = Settings()
 
@@ -31,8 +31,4 @@ def _initial_settings_clojure() -> Callable[[], Settings]:
     return fn
 
 
-get_initial_settings = _initial_settings_clojure()
-
-
-def get_current_settings() -> Settings:
-    return Settings()
+get_settings = _configure_initial_settings()

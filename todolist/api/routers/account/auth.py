@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from enum import Enum
 from operator import attrgetter
-from typing import Any, Dict, cast
+from typing import Any, Dict
 
 import jwt
 from fastapi import Depends, HTTPException  # type: ignore
@@ -11,21 +11,22 @@ from fastapi.security import OAuth2PasswordBearer  # type: ignore
 from fastapi.security import OAuth2PasswordRequestForm  # type: ignore
 from pydantic import BaseModel
 
-from todolist.config.environment import get_initial_settings
+from todolist.api.container import get_dependencies
+from todolist.config.environment import get_settings
 from todolist.core.accounts.entities.user import Credentials, UserRegistry
-from todolist.core.accounts.protocols import UserRepo
 from todolist.core.accounts.services import user_service
-from todolist.infra.database.repositories import user_repository
+
 
 _secret_key, _expire_minutes, _algorithm = attrgetter(
     "JWT_SECRET_KEY", "JWT_ACCESS_TOKEN_EXPIRE_MINUTES", "JWT_ALGORITHM"
-)(get_initial_settings())
+)(get_settings())
 
 _credentials_exception = HTTPException(
     status_code=401, detail="invalid token", headers={"WWW-Authenticate": "Bearer"},
 )
 
-repo = cast(UserRepo, user_repository)
+
+repo = get_dependencies().user_repo
 
 
 # View models

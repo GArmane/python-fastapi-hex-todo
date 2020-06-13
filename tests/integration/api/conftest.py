@@ -4,11 +4,11 @@ import pytest
 from fastapi.testclient import TestClient  # type: ignore
 from pytest_factoryboy import register
 
-from tests.factories.entitiy_factories import CredentialsFactory
+from tests.factories.entity_factories import CredentialsFactory
 from tests.factories.model_factories import register_user
 from tests.utils.auth import build_form_data, oauth2_token_url
 from tests.utils.database import clear_database
-from todolist.config.environment import get_current_settings, get_initial_settings
+from todolist.config.environment import get_settings
 from todolist.core.accounts.entities.user import User
 from todolist.core.accounts.services import hash_service
 from todolist.api import init_app
@@ -23,19 +23,14 @@ for factory in FACTORIES:
     register(factory)
 
 
-@pytest.fixture(name="current_env_settings")
-def current_env_settings_fixture():
-    return get_current_settings()
-
-
-@pytest.fixture(name="initial_env_settings")
-def initial_env_settings_fixture():
-    return get_initial_settings()
+@pytest.fixture(name="env_settings")
+def env_settings():
+    return get_settings()
 
 
 @pytest.fixture(name="web_app")
-def web_app_fixture(initial_env_settings):
-    return init_app(initial_env_settings)
+def web_app_fixture(env_settings):
+    return init_app(env_settings)
 
 
 @pytest.fixture(name="test_client")
